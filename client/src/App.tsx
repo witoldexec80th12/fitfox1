@@ -1,9 +1,32 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
+
+import { initBackButton, initClosingBehavior, initHapticFeedback, initViewport } from '@telegram-apps/sdk';
+
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+
+  const [backButton] = initBackButton();
+  const [closingBehavior] = initClosingBehavior();
+  const hapticFeedback = initHapticFeedback();
+  const [viewport] = initViewport();
+
+  useEffect(() => {
+    const initApp = async () => {
+      backButton.show();
+      closingBehavior.enableConfirmation();
+      hapticFeedback.notificationOccurred('success');
+      const vp = await viewport;
+
+      if (!vp.isExpanded) {
+        vp.expand(); // will expand the Mini App, if it's not
+      }
+    }
+
+    initApp();
+  })
 
   return (
     <>
