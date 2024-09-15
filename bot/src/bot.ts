@@ -17,8 +17,8 @@ const mainMessage = `
 `;
 
 const openWebAppInlineKeyboard = new InlineKeyboard()
-	.webApp("Start App", "https://7d4a-83-234-227-22.ngrok-free.app/")
-	// .webApp("Start App", "https://fitfox.onrender.com")
+	// .webApp("Start App", "https://7d4a-83-234-227-22.ngrok-free.app/")
+	.webApp("Start App", "https://fitfox.onrender.com")
 	.row()
 	.url("Join Community", "https://t.me/joinchat/XXXXXX");
 
