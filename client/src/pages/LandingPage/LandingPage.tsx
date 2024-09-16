@@ -24,7 +24,7 @@ const LandingPage: React.FC = () => {
           </p>
         </div>
       </div>
-      <button className="fitfox-btn" onClick={() => navigate('/')}>Get Started!</button>
+      <button className="fitfox-btn" onClick={() => navigate('/tasks')}>Get Started!</button>
     </div>
   );
 };
