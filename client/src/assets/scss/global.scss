@@ -20,6 +20,10 @@ p, h1, h2, h5 {
     line-height: 20px;
     text-align: center;
     border-radius: 20px;
+
+    &.hover {
+        background-color: #00b0b0bb;
+    }
 }
 
 button:focus {
