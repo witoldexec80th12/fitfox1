@@ -4,9 +4,12 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { initBackButton, initClosingBehavior, initHapticFeedback, initViewport } from '@telegram-apps/sdk';
 
 import './App.css'
+
 import LandingPage from './pages/LandingPage/LandingPage';
 import TasksPage from './pages/TasksPage/TasksPage';
 import Layout from './Layout/Layout';
+import FriendPage from './pages/FriendPage/FriendPage';
+import ProfilePage from './pages/ProfilePage/ProfilePage';
 
 function App() {
   const [backButton] = initBackButton();
@@ -38,7 +41,8 @@ function App() {
         {/* Other routes wrapped with Layout */}
         <Route element={<Layout />}>
           <Route path='/tasks' element={<TasksPage />} />
-          {/* Add more routes here */}
+          <Route path='/friends' element={<FriendPage />} />
+          <Route path='/profile' element={<ProfilePage />} />
         </Route>
       </Routes>
     </Router>
