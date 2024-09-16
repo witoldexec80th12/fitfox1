@@ -5,6 +5,8 @@ import { initBackButton, initClosingBehavior, initHapticFeedback, initViewport }
 
 import './App.css'
 import LandingPage from './pages/LandingPage/LandingPage';
+import TasksPage from './pages/TasksPage/TasksPage';
+import BottomNavbar from './components/BottomNavbar/BottomNavbar';
 
 function App() {
 
@@ -32,7 +34,9 @@ function App() {
     <Router>
       <Routes>
         <Route path='/' element={<LandingPage />} />
+        <Route path='/tasks' element={<TasksPage />} />
       </Routes>
+      <BottomNavbar />
     </Router>
   )
 }

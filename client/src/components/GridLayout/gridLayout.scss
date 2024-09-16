@@ -1,0 +1,17 @@
+.grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 20px 0 30px;
+    border-bottom: 1px solid #AAAAAA;
+}
+
+.grid-item {
+    padding: 20px;
+    border-radius: 25px;
+    background-color: white;
+    box-shadow: 0px 10px 20px 0px #00dfee1a;
+    cursor: pointer;
+    aspect-ratio: 1;
+}
+     
