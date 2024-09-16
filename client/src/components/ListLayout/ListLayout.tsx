@@ -1,6 +1,6 @@
 // ListLayout.tsx
 import React, { FC } from 'react';
-import './ListLayout.scss';
+import './listLayout.scss';
 
 interface ListLayoutProps {
   children: React.ReactNode[];
