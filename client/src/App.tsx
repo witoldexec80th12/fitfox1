@@ -10,6 +10,7 @@ import TasksPage from './pages/TasksPage/TasksPage';
 import Layout from './Layout/Layout';
 import FriendPage from './pages/FriendPage/FriendPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
+import AskPage from './pages/AskPage/AskPage';
 
 function App() {
   const [backButton] = initBackButton();
@@ -41,6 +42,7 @@ function App() {
         {/* Other routes wrapped with Layout */}
         <Route element={<Layout />}>
           <Route path='/tasks' element={<TasksPage />} />
+          <Route path='/ask' element={<AskPage />} />
           <Route path='/friends' element={<FriendPage />} />
           <Route path='/profile' element={<ProfilePage />} />
         </Route>
