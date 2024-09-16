@@ -6,10 +6,9 @@ import { initBackButton, initClosingBehavior, initHapticFeedback, initViewport }
 import './App.css'
 import LandingPage from './pages/LandingPage/LandingPage';
 import TasksPage from './pages/TasksPage/TasksPage';
-import BottomNavbar from './components/BottomNavbar/BottomNavbar';
+import Layout from './Layout/Layout';
 
 function App() {
-
   const [backButton] = initBackButton();
   const [closingBehavior] = initClosingBehavior();
   const hapticFeedback = initHapticFeedback();
@@ -32,11 +31,16 @@ function App() {
 
   return (
     <Router>
-      <Routes>
+     <Routes>
+        {/* Home route without Layout */}
         <Route path='/' element={<LandingPage />} />
-        <Route path='/tasks' element={<TasksPage />} />
+
+        {/* Other routes wrapped with Layout */}
+        <Route element={<Layout />}>
+          <Route path='/tasks' element={<TasksPage />} />
+          {/* Add more routes here */}
+        </Route>
       </Routes>
-      <BottomNavbar />
     </Router>
   )
 }

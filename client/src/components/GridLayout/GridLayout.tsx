@@ -1,6 +1,6 @@
 // GridLayout.tsx
 import React, { FC } from 'react';
-import './GridLayout.scss';
+import './gridLayout.scss';
 
 interface GridLayoutProps {
   children: React.ReactNode[];
