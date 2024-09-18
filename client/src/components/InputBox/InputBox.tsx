@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./InputBox.scss";
+import "./inputBox.scss";
 
 interface InputBoxProps {
   onSendMessage: (message: string) => void;
