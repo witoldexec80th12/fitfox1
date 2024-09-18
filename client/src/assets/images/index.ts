@@ -4,6 +4,7 @@ import lunch from "./lunch.png";
 import walk from "./lunch.png";
 import logo from "./Frame.png";
 import close from "./close.png";
+import advisor from "./advisor.png";
 
 export {
     breakfast,
@@ -12,4 +13,5 @@ export {
     walk,
     logo,
     close,
+    advisor,
 }
