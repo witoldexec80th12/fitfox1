@@ -8,6 +8,11 @@ import logoImg from "../../assets/images/Frame.png";
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();
 
+  const handleGetStarted = () => {
+    navigate('/tasks');
+
+  }
+
   return (
     <div className="fitfox-landing">
       <div>
@@ -24,7 +29,7 @@ const LandingPage: React.FC = () => {
           </p>
         </div>
       </div>
-      <button className="fitfox-btn" onClick={() => navigate('/tasks')}>Get Started!</button>
+      <button className="fitfox-btn" onClick={handleGetStarted}>Get Started!</button>
     </div>
   );
 };
