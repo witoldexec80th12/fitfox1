@@ -1,14 +1,38 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 
 import GridLayout from "../../components/GridLayout/GridLayout";
 import TaskBoxItem from "../../components/TaskBoxItem/TaskBoxItem";
 import { healthTasks, newTasks } from "../../data/dumyTasks";
+import { useAppContext } from "../../context/useAppContext";
 
 import "./tasks.scss";
 import ListLayout from "../../components/ListLayout/ListLayout";
 import ListItem from "../../components/ListItem/ListItem";
+import UploadModal from "../../components/Modal/UploadModal";
 
 const TasksPage: FC = () => {
+    const {isBloodExamExist, setUploadType} = useAppContext();
+
+    const [showUploadModal, setShowUploadModal] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (!isBloodExamExist) {
+            setUploadType('blood');
+            setShowUploadModal(true);
+        }
+    }, [isBloodExamExist, setUploadType]);
+
+    const handleBlockTaskClick = (taskTitle: string, index: number) => {
+        console.log('Clicked Task Block Item!', taskTitle, index);
+        if (index !== 3) {
+            const uploadType = taskTitle.toLowerCase();
+            setUploadType(uploadType);
+            setShowUploadModal(true);
+        } else {
+            console.log("Go Walking Blockchain logic!");
+        }
+    }
+
     return (
         <div className="fitfox-tasks">
             <h2>Tasks</h2>
@@ -26,6 +50,7 @@ const TasksPage: FC = () => {
                             title={task.title}
                             point={task.totalNumber}
                             key={index}
+                            onClick={() => handleBlockTaskClick(task.title, index)}
                         />
                     ))}
                 </GridLayout>
@@ -42,6 +67,7 @@ const TasksPage: FC = () => {
                     }
                 </ListLayout>
             </div>
+            {showUploadModal && <UploadModal onClose={() => setShowUploadModal(false)} />}
         </div>
     );
 };
