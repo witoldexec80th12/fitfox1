@@ -1,0 +1,48 @@
+.input-container {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+
+  .input-box {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+
+    input {
+      border: none;
+      outline: none;
+      background-color: transparent;
+      padding: 0;
+      flex-grow: 1;
+    }
+
+    .icons {
+      display: flex;
+
+      .upload-icon,
+      .send-icon {
+        display: flex;
+        align-items: center;
+        padding: 0 !important;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+      }
+
+      .send-icon {
+        margin-left: 20px;
+      }
+    }
+  }
+
+  .mic-btn {
+    width: 60px;
+    background-color: #00b0b0;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+  }
+}

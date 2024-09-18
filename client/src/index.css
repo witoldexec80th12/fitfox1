@@ -17,7 +17,7 @@ a:hover {
 }
 
 body {
-  background: linear-gradient(180deg, #FFFFFF 0%, #EEEEEE 100%);
+  background: linear-gradient(180deg, #FFFFFF 100%, #EEEEEE 100%);
   width: 100vw;
   margin: 0;
   overflow-y: overlay;

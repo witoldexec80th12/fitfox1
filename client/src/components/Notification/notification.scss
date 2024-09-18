@@ -1,0 +1,31 @@
+.notification {
+  position: fixed;
+  right: 5%;
+  top: 130px;
+  width: 90%;
+  padding: 20px;
+  border-radius: 25px;
+
+  //   font-family: Plus Jakarta Sans;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: center;
+  background: linear-gradient(180deg, #fff7f2 0%, #ffd6ba 100%);
+
+  .close-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: transparent;
+    border: none;
+    transform: translateY(-40%);
+    margin-right: -15px;
+    cursor: pointer;
+
+    img {
+      width: 25px;
+      height: 25px;
+    }
+  }
+}

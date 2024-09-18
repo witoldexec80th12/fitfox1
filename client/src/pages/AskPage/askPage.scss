@@ -1,0 +1,31 @@
+.chat-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 40px 20px 100px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #EEEEEE 100%);
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+
+    h1 {
+    //   font-family: Plus Jakarta Sans;
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 40.32px;
+      text-align: center;
+      color: #00B0B0;
+    }
+  }
+
+  .chat-container {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto; 
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}
