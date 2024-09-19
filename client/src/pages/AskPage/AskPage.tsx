@@ -4,6 +4,7 @@ import ChatMessage from "../../components/ChatMessage/ChatMessage";
 import InputBox from "../../components/InputBox/InputBox";
 import Notification from "../../components/Notification/Notification";
 import "./askPage.scss";
+import RecordModal from "../../components/Modal/RecordModal";
 
 const AskPage: React.FC = () => {
   const [messages, setMessages] = useState<
@@ -12,6 +13,7 @@ const AskPage: React.FC = () => {
   const [notification, setNotification] = useState(
     "Ask us any question, as simple or as complex, and our team of expert nutritionists, and our proprietary technology will make sure you get an answer. The more questions you ask, the more points you will get."
   );
+  const [showRecordModal, setShowRecordModal] = useState<boolean>(false);
 
   const handleSendMessage = (message: string) => {
     const time = new Date().toLocaleTimeString();
@@ -59,7 +61,9 @@ const AskPage: React.FC = () => {
       </div>
 
       {/* Input Box */}
-      <InputBox onSendMessage={handleSendMessage} />
+      <InputBox onSendMessage={handleSendMessage} onClickMic={() => setShowRecordModal(true)} />
+
+      {showRecordModal && <RecordModal onClose={() => setShowRecordModal(false)}/>}
     </div>
   );
 };

@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import "./inputBox.scss";
 
 interface InputBoxProps {
+  onClickMic: () => void;
   onSendMessage: (message: string) => void;
 }
 
-const InputBox: React.FC<InputBoxProps> = ({ onSendMessage }) => {
+const InputBox: React.FC<InputBoxProps> = ({ onSendMessage, onClickMic }) => {
   const [message, setMessage] = useState("");
 
   const handleSendClick = () => {
@@ -55,7 +56,7 @@ const InputBox: React.FC<InputBoxProps> = ({ onSendMessage }) => {
           </button>
         </div>
       </div>
-      <button className="mic-btn">
+      <button className="mic-btn" onClick={onClickMic}>
         <svg
           width="18"
           height="25"
