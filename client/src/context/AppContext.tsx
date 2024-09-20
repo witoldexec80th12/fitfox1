@@ -1,6 +1,14 @@
 import React, { createContext, useState, ReactNode } from "react";
 
+import defaultAvatar from "../assets/images/defaultAvatar.png";
+
 interface AppContextProps {
+  avatar: string;
+  setAvatar: React.Dispatch<React.SetStateAction<string>>;
+  fullName: string;
+  setFullName: React.Dispatch<React.SetStateAction<string>>;
+  email: string;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
   isBloodExamExist: boolean;
   setIsBloodExamExist: React.Dispatch<React.SetStateAction<boolean>>;
   uploadType: string; // breakfast, lunch, dinner, blood
@@ -22,6 +30,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   // const [showInviteModal, setShowInviteModal] = useState<boolean>(false);
   const [isBloodExamExist, setIsBloodExamExist] = useState<boolean>(false);
   const [uploadType, setUploadType] = useState<string>("blood");
+  const [avatar, setAvatar] = useState<string>(defaultAvatar);
+  const [fullName, setFullName] = useState<string>("Jones Duo");
+  const [email, setEmail] = useState<string>("jones.duo@gmail.com");
 
   // useEffect(() => {
   //   const tgUser = initData?.user;
@@ -58,7 +69,13 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
         isBloodExamExist,
         setIsBloodExamExist,
         uploadType,
-        setUploadType
+        setUploadType,
+        avatar,
+        setAvatar,
+        fullName,
+        setFullName,
+        email,
+        setEmail
       }}
     >
       {children}
