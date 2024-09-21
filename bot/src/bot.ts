@@ -17,7 +17,7 @@ const mainMessage = `
 `;
 
 const openWebAppInlineKeyboard = new InlineKeyboard()
-	.webApp("Start App", "https://rnanl-83-234-227-17.a.free.pinggy.link")
+	.webApp("Start App", "https://rnvhs-83-234-227-17.a.free.pinggy.link")
 	// .webApp("Start App", "https://fitfox-ujvr.onrender.com")
 	.row()
 	.url("Join Community", "https://t.me/joinchat/XXXXXX");

@@ -9,6 +9,14 @@ import "./tasks.scss";
 import ListLayout from "../../components/ListLayout/ListLayout";
 import ListItem from "../../components/ListItem/ListItem";
 import UploadModal from "../../components/Modal/UploadModal";
+import { ListStyle } from "../../data/types";
+
+const listStyle: ListStyle = {
+    listStyle: {
+        padding: "15px 20px",
+        cursor: "pointer"
+    }
+}
 
 const TasksPage: FC = () => {
     const {isBloodExamExist, setUploadType} = useAppContext();
@@ -62,7 +70,7 @@ const TasksPage: FC = () => {
                 <ListLayout>
                     {
                         newTasks.map((newTask, index) => 
-                            <ListItem title={newTask.title} btnPoint={newTask.reward} key={index} />
+                            <ListItem title={newTask.title} btnPoint={newTask.reward} style={listStyle} key={index} />
                         )
                     }
                 </ListLayout>

@@ -1,0 +1,91 @@
+.den-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border: 2px solid #ffd6bb;
+  border-radius: 25px;
+  background: linear-gradient(180deg, #fff7f2 0%, #ffd6ba 100%);
+  margin-top: 20px;
+
+  .den-header {
+    color: black;
+
+    h5 {
+      //   font-family: Plus Jakarta Sans;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 20.16px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    p {
+      //   font-family: Plus Jakarta Sans;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 16px;
+      text-align: center;
+    }
+  }
+
+  .den-icon {
+    margin-top: 20px;
+  }
+
+  .den-balance {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: black;
+    margin: 13px 0 20px;
+
+    h1 {
+      // font-family: Plus Jakarta Sans;
+      font-size: 40px;
+      font-weight: 800;
+      line-height: 40px;
+      text-align: center;
+    }
+
+    p {
+      // font-family: Plus Jakarta Sans;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 16px;
+      text-align: center;
+    }
+  }
+
+  .fitfox-btn {
+    padding: 15px;
+    border-radius: 10px;
+    z-index: 10;
+  }
+
+  .den-star {
+    position: absolute;
+  }
+
+  .star1 {
+    top: 30%;
+    left: 20%;
+  }
+
+  .star2 {
+    top: 60%;
+    left: 10%;
+  }
+
+  .star3 {
+    top: 30%;
+    right: 20%;
+  }
+
+  .star4 {
+    top: 65%;
+    right: 10%;
+  }
+}

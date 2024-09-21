@@ -1,18 +1,40 @@
 .fitfox-profile {
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  padding-bottom: 110px;
+
+  h2 {
+    // font-family: Plus Jakarta Sans;
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 40.32px;
+    text-align: center;
+    color: #00b0b0;
     padding: 30px;
-    padding-bottom: 110px;
+  }
+
+  .user-info {
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(180deg, #ffffff 0%, #cff6ff 100%);
+    border-radius: 30px;
+    margin-top: 20px;
+  }
+
+  .points-history {
+    width: 100%;
 
     h2 {
-        // font-family: Plus Jakarta Sans;
-        font-size: 32px;
-        font-weight: 800;
-        line-height: 40.32px;
-        text-align: center;
-        color: #00b0b0;
-        padding: 30px;
+      color: black;
+      // font-family: Plus Jakarta Sans;
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 30.24px;
+      text-align: center;
+      padding: 20px;
     }
+  }
 }
