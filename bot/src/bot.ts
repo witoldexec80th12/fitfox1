@@ -1,5 +1,6 @@
 import { Bot, InlineKeyboard } from "grammy";
 import dotenv from "dotenv";
+import { initPlayer } from "./service/authService";
 
 dotenv.config();
 
@@ -33,12 +34,12 @@ bot.command('start', async (ctx) => {
 		console.error("Error send chat action :", error);
 	}
 
-	// try {
+	try {
 	// const ref_id = ctx.match?.split("ref_")[1] || null;
-	// await initializePlayer(user, ref_id);
-	// } catch (error) {
-	// console.error("Error initializing player:", error);
-	// }
+	await initPlayer(user);
+	} catch (error) {
+	console.error("Error initializing player:", error);
+	}
 
 
 	await ctx.replyWithPhoto("https://www.imghost.net/ib/g8lIhKfHVwea3H4_1726301662.png", {

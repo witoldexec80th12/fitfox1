@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema(
     last_name: { type: String, required: true },
     email: { type: String, unique: true },
     avatar: { type: String, default: "" }, // URL to avatar image
+    point: {type: Number, default: 0},
     userInfo: { type: userInfoSchema, default: {} },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
