@@ -2,7 +2,7 @@ import { useState, FC } from "react";
 import { useNavigate } from "react-router-dom";
 import "./navbar.scss";
 
-type Tab = "tasks" | "ask" | "friends" | "profile";
+type Tab = "tasks" | "ask" | "rank" | "profile";
 
 const BottomNavbar: FC = () => {
   const navigate = useNavigate();
@@ -56,8 +56,8 @@ const BottomNavbar: FC = () => {
         <span>Ask</span>
       </div>
       <div
-        className={`tab ${activeTab === "friends" ? "active" : ""}`}
-        onClick={() => handleTabClick("friends")}
+        className={`tab ${activeTab === "rank" ? "active" : ""}`}
+        onClick={() => handleTabClick("rank")}
       >
         <div className="icon">
           <svg
