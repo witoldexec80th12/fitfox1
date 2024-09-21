@@ -13,10 +13,10 @@ import "./App.css";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import TasksPage from "./pages/TasksPage/TasksPage";
 import Layout from "./Layout/Layout";
-import FriendPage from "./pages/FriendPage/FriendPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import AskPage from "./pages/AskPage/AskPage";
 import { AppProvider } from "./context/AppContext";
+import RankPage from "./pages/RankPage/FriendPage";
 
 function App() {
   const [backButton] = initBackButton();
@@ -50,7 +50,7 @@ function App() {
           <Route element={<Layout />}>
             <Route path="/tasks" element={<TasksPage />} />
             <Route path="/ask" element={<AskPage />} />
-            <Route path="/friends" element={<FriendPage />} />
+            <Route path="/rank" element={<RankPage />} />
             <Route path="/profile" element={<ProfilePage />} />
           </Route>
         </Routes>
