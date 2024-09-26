@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAppContext } from "../../context/useAppContext";
 import "./modal.scss";
+import axios from "axios";
 
 interface ModalProps {
   onClose: () => void;
@@ -9,6 +10,8 @@ interface ModalProps {
 const UploadModal: React.FC<ModalProps> = ({ onClose }) => {
   const [file, setFile] = useState<File | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [uploading, setUploading] = useState<boolean>(false);
+  const [uploadUrl, setUploadUrl] = useState<string | null>(null);
 
   const { uploadType } = useAppContext();
 
@@ -19,13 +22,45 @@ const UploadModal: React.FC<ModalProps> = ({ onClose }) => {
   }, []);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setFile(event.target.files[0]);
+    const selectedFile = event.target.files ? event.target.files[0] : null;
+    if (selectedFile) {
+      console.log("File Name:", selectedFile.name);
+      console.log("File Type:", selectedFile.type);
+      console.log("File Size:", selectedFile.size);
+      setFile(selectedFile);
     }
   };
 
-  const handleSubmit = () => {
-    console.log(file, uploadType);
+  const handleSubmit = async () => {
+    console.log(uploadType);
+    if (!file) return;
+    
+    const cloudName = import.meta.env.CLOUDINARY_CLOUD_NAME; // Replace with your Cloudinary cloud name
+    const uploadPreset = import.meta.env.CLOUDINARY_UPLOAD_PRESET; // Replace with your Cloudinary upload preset
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", uploadPreset);
+
+    try {
+      setUploading(true);
+      const response = await axios.post(
+        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("cloudinary res: ", response);
+      setUploadUrl(response.data.secure_url); // This is the URL of the uploaded image
+      setUploading(false);
+      alert(`Image URL: ${response.data.secure_url}`);
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      setUploading(false);
+    }
   };
 
   return (
@@ -53,7 +88,7 @@ const UploadModal: React.FC<ModalProps> = ({ onClose }) => {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <g clip-path="url(#clip0_25_316)">
+            <g clipPath="url(#clip0_25_316)">
               <path
                 d="M60.2283 18.3946V15.2963C60.2283 15.0347 60.0108 14.824 59.7449 14.824H42.6356C42.3697 14.824 42.1522 15.0347 42.1522 15.2963V18.3946C42.1522 18.6562 41.9346 18.8669 41.6687 18.8669H0.599721C0.333824 18.8669 0.116272 19.0777 0.116272 19.3393V63.4437C0.116272 63.7054 0.333824 63.9161 0.599721 63.9161H68.5098C68.7757 63.9161 68.9933 63.7054 68.9933 63.4437V19.3417C68.9933 19.0801 68.7757 18.8694 68.5098 18.8694H60.7118C60.4459 18.8694 60.2283 18.6586 60.2283 18.397V18.3946Z"
                 fill="#005353"
@@ -193,9 +228,18 @@ const UploadModal: React.FC<ModalProps> = ({ onClose }) => {
           </label>
         </div>
 
-        <button className="fitfox-btn" onClick={handleSubmit}>
-          Upload Results
+        <button className="fitfox-btn" onClick={handleSubmit} disabled={uploading}>
+          {uploading ? "Uploading..." : "Upload Results"}
         </button>
+
+        {uploadUrl && (
+          <div className="upload-result">
+            <p>Upload successful! Here's your image URL:</p>
+            <a href={uploadUrl} target="_blank" rel="noopener noreferrer">
+              {uploadUrl}
+            </a>
+          </div>
+        )}
       </div>
     </div>
   );

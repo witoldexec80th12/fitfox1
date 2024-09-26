@@ -148,7 +148,7 @@ const PrivateDen: React.FC = () => {
         </svg>
       </div>
       <div className="den-star star2">
-      <svg
+        <svg
           width="19"
           height="26"
           viewBox="0 0 19 26"

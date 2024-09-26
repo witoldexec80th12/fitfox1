@@ -20,7 +20,7 @@ export const createNewPlayer = async (userData: any) => {
 
 export const initPlayer = async (userData: any) => {
     try {
-        await axios.get(`${process.env.SERVER_URL}/user/${userData.id}`);
+        await axios.get(`${process.env.SERVER_URL}/users/${userData.id}`);
         console.log("Player already exist!");
         return;
     } catch(error: any) {
