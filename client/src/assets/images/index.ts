@@ -6,6 +6,7 @@ import logo from "./Frame.png";
 import close from "./close.png";
 import advisor from "./advisor.png";
 import union from "./Union.png";
+import defaultAvatar from "./defaultAvatar.png";
 
 export {
     breakfast,
@@ -16,4 +17,5 @@ export {
     close,
     advisor,
     union,
+    defaultAvatar,
 }

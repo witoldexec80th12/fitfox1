@@ -1,0 +1,63 @@
+.fitfox-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .header-profile {
+        display: flex;
+        align-items: center;
+
+        .user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #00b0b0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-welcome {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-left: 15px;
+            gap: 5px;
+
+            h5 {
+                // font-family: Plus Jakarta Sans;
+                font-size: 20px;
+                font-weight: 600;
+                line-height: 25.2px;
+                text-align: left;
+            }
+
+            p {
+                // font-family: Plus Jakarta Sans;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 16px;
+                text-align: left;
+            }
+        }
+
+        .user-point {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            gap: 4px;
+            border: 1px solid #ffd7bc;
+            background: linear-gradient(180deg, #fff7f2 0%, #ffd6ba 100%);
+            border-radius: 50%;
+
+            // font-family: Plus Jakarta Sans;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 16px;
+            text-align: center;
+            color: black;
+        }
+    }
+}

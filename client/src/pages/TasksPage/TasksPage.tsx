@@ -10,6 +10,7 @@ import ListLayout from "../../components/ListLayout/ListLayout";
 import ListItem from "../../components/ListItem/ListItem";
 import UploadModal from "../../components/Modal/UploadModal";
 import { ListStyle } from "../../data/types";
+import Header from "../../components/Header/Header";
 
 const listStyle: ListStyle = {
     listStyle: {
@@ -43,7 +44,10 @@ const TasksPage: FC = () => {
 
     return (
         <div className="fitfox-tasks">
+            <Header />
+
             <h2>Tasks</h2>
+
             <div className="task-grid">
                 <div>
                     <h2>
@@ -63,6 +67,7 @@ const TasksPage: FC = () => {
                     ))}
                 </GridLayout>
             </div>
+
             <div className="task-list">
                 <h2>
                     New Tasks
@@ -75,6 +80,7 @@ const TasksPage: FC = () => {
                     }
                 </ListLayout>
             </div>
+            
             {showUploadModal && <UploadModal onClose={() => setShowUploadModal(false)} />}
         </div>
     );
