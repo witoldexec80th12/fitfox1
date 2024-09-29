@@ -2,6 +2,8 @@ import React, { createContext, useState, ReactNode, useEffect } from "react";
 
 import defaultAvatar from "../assets/images/defaultAvatar.png";
 import { initCloudStorage, initInitData } from "@telegram-apps/sdk";
+import { HealthTask } from "../data/types";
+import { healthTasks } from "../data/dumyTasks";
 
 interface AppContextProps {
   userName: string;
@@ -16,6 +18,8 @@ interface AppContextProps {
   setIsBloodExamExist: React.Dispatch<React.SetStateAction<boolean>>;
   uploadType: string; // breakfast, lunch, dinner, blood
   setUploadType: React.Dispatch<React.SetStateAction<string>>;
+  userDailyTask: HealthTask[];
+  setUserDailyTask: React.Dispatch<React.SetStateAction<HealthTask[]>>;
 }
 
 export const AppContext = createContext<AppContextProps | undefined>(undefined);
@@ -36,6 +40,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   const [avatar, setAvatar] = useState<string>(defaultAvatar);
   const [fullName, setFullName] = useState<string>("Jones Duo");
   const [email, setEmail] = useState<string>("jones.duo@gmail.com");
+  const [userDailyTask, setUserDailyTask] = useState<HealthTask[]>(healthTasks);
 
   useEffect(() => {
     const tgUser = initData?.user;
@@ -80,7 +85,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
         email,
         setEmail,
         userName,
-        userID
+        userID,
+        userDailyTask,
+        setUserDailyTask,
       }}
     >
       {children}

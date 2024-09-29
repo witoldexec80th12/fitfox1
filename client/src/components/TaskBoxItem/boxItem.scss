@@ -4,22 +4,33 @@
     align-items: center;
     padding: 20px;
 
-    img {
+    div.photo {
         width: 60px;
         height: 60px;
-        margin-bottom: 15px;
+        border-radius: 50%;
+        background: linear-gradient(180deg, #ffffff 0%, #cff6ff 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    h5 {
+    button.task-btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        background-color: #00b0b0;
+        border-radius: 10px;
         // font-family: Plus Jakarta Sans;
-        font-size: 20px;
+        font-size: 16px;
         font-weight: 600;
-        line-height: 25.2px;
+        line-height: 20.16px;
         text-align: center;
+        color: white;
     }
 
     p {
-        color: #00B0B0;
+        color: #00b0b0;
         // font-family: Plus Jakarta Sans;
         font-size: 24px;
         font-weight: 800 !important;

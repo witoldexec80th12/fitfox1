@@ -1,7 +1,9 @@
 export interface HealthTask {
-    icon: string;
+    icon: React.FC;
+    photo?: string;
     title: string;
     totalNumber: number;
+    performed: boolean;
 }
 
 export interface NewTask {

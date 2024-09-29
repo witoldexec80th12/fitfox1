@@ -1,28 +1,35 @@
 import { HealthTask, NewTask, PointHistory, UserInfo } from "./types";
 
-import { breakfast, lunch, dinner, walk } from "../assets/images";
-import { ContactIcon, KeyIcon, LabIcon, TelegramIcon } from "./Icons";
+import { BreakFastIcon, ContactIcon, DinnerIcon, KeyIcon, LabIcon, LunchIcon, TelegramIcon, WalkingIcon } from "./Icons";
 
 export const healthTasks: HealthTask[] = [
   {
-    icon: breakfast,
+    icon: BreakFastIcon,
+    photo: "",
     title: "Breakfast",
     totalNumber: 20,
+    performed: false,
   },
   {
-    icon: lunch,
+    icon: LunchIcon,
+    photo: "",
     title: "Lunch",
     totalNumber: 20,
+    performed: false,
   },
   {
-    icon: dinner,
+    icon: DinnerIcon,
+    photo: "",
     title: "Dinner",
     totalNumber: 10,
+    performed: false,
   },
   {
-    icon: walk,
+    icon: WalkingIcon,
+    photo: "",
     title: "Walking",
     totalNumber: 0,
+    performed: false,
   },
 ];
 
