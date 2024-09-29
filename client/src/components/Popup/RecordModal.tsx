@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./modal.scss";
+import "./popupModal.scss";
 
 interface ModalProps {
   onClose: () => void;
