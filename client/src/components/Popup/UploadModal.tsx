@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAppContext } from "../../context/useAppContext";
-import "./modal.scss";
+import "./popupModal.scss";
 import axios from "axios";
 
 interface ModalProps {
