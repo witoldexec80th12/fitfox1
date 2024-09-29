@@ -8,7 +8,7 @@ import { useAppContext } from "../../context/useAppContext";
 import "./tasks.scss";
 import ListLayout from "../../components/ListLayout/ListLayout";
 import ListItem from "../../components/ListItem/ListItem";
-import UploadModal from "../../components/Modal/UploadModal";
+import UploadModal from "../../components/Popup/UploadModal";
 import { ListStyle } from "../../data/types";
 import Header from "../../components/Header/Header";
 
@@ -58,7 +58,7 @@ const TasksPage: FC = () => {
                 <GridLayout>
                     {healthTasks.map((task, index) => (
                         <TaskBoxItem
-                            icon={task.icon}
+                            icon={<task.icon />}
                             title={task.title}
                             point={task.totalNumber}
                             key={index}

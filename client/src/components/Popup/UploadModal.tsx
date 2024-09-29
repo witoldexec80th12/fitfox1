@@ -64,7 +64,7 @@ const UploadModal: React.FC<ModalProps> = ({ onClose }) => {
   };
 
   return (
-    <div className={`modal`}>
+    <div className={`popup-modal`}>
       <div className={`modal-content ${isOpen ? "open" : ""}`}>
         <span className="close" onClick={onClose}>
           <svg
