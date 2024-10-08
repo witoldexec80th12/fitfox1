@@ -5,10 +5,11 @@ import axios from "axios";
 import SuccessAlert from "../Alert/Success";
 
 interface ModalProps {
+  isBloodTest?: boolean;
   onClose: () => void;
 }
 
-const UploadModal: React.FC<ModalProps> = ({ onClose }) => {
+const UploadModal: React.FC<ModalProps> = ({ isBloodTest = false, onClose }) => {
   const [file, setFile] = useState<File | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [uploading, setUploading] = useState<boolean>(false);
@@ -36,7 +37,7 @@ const UploadModal: React.FC<ModalProps> = ({ onClose }) => {
   const handleSubmit = async () => {
     console.log(uploadType);
     if (!file) return;
-    
+
     const cloudName = import.meta.env.CLOUDINARY_CLOUD_NAME; // Replace with your Cloudinary cloud name
     const uploadPreset = import.meta.env.CLOUDINARY_UPLOAD_PRESET; // Replace with your Cloudinary upload preset
 
@@ -251,9 +252,12 @@ const UploadModal: React.FC<ModalProps> = ({ onClose }) => {
             </a>
           </div>
         )}
+
+        <p className="text-bottom">No results to upload? Enter your access code <span>here</span></p>
       </div>
 
-      <SuccessAlert isVisible={isAlertVisible} onClose={closeAlert} />
+
+      {isBloodTest && <SuccessAlert isVisible={isAlertVisible} onClose={closeAlert} />}
     </div>
   );
 };

@@ -15,7 +15,7 @@
     background-color: #f3f3f3;
     width: 100%;
     max-width: 500px;
-    padding: 45px 30px 30px;
+    padding: 45px 30px 20px;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
     text-align: center;
@@ -112,6 +112,28 @@
 
       input[type="file"] {
         display: none;
+      }
+    }
+
+    .text-bottom {
+      // font-family: Plus Jakarta Sans;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 16px;
+      text-align: center;
+      color: #9f9f9f;
+      margin-top: 10px;
+      user-select: none;
+
+      span {
+        // font-family: Plus Jakarta Sans;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 16px;
+        text-align: center;
+        text-decoration: underline;
+        color: #00b0b0;
+        cursor: pointer;
       }
     }
   }

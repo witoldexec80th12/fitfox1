@@ -86,7 +86,7 @@ const TasksPage: FC = () => {
                 </ListLayout>
             </div>
             
-            {showUploadModal && <UploadModal onClose={() => setShowUploadModal(false)} />}
+            {showUploadModal && <UploadModal isBloodTest={true} onClose={() => setShowUploadModal(false)} />}
         </div>
     );
 };
