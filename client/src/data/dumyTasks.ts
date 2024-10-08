@@ -1,6 +1,7 @@
 import { HealthTask, NewTask, PointHistory, UserInfo } from "./types";
 
-import { BreakFastIcon, ContactIcon, DinnerIcon, KeyIcon, LabIcon, LunchIcon, TelegramIcon, WalkingIcon } from "./Icons";
+import { BreakFastIcon, ContactIcon, DinnerIcon, KeyIcon, LabIcon, LunchIcon, TelegramIcon, WalkingIcon } from "../utils/Icons";
+import { BreakfastTooltip, DinnerTooltip, LunchTooltip, WalkingTooltip } from "../utils/Tooltips";
 
 export const healthTasks: HealthTask[] = [
   {
@@ -9,6 +10,7 @@ export const healthTasks: HealthTask[] = [
     title: "Breakfast",
     totalNumber: 20,
     performed: false,
+    tooltip: BreakfastTooltip
   },
   {
     icon: LunchIcon,
@@ -16,6 +18,7 @@ export const healthTasks: HealthTask[] = [
     title: "Lunch",
     totalNumber: 20,
     performed: false,
+    tooltip: LunchTooltip
   },
   {
     icon: DinnerIcon,
@@ -23,6 +26,7 @@ export const healthTasks: HealthTask[] = [
     title: "Dinner",
     totalNumber: 10,
     performed: false,
+    tooltip: DinnerTooltip
   },
   {
     icon: WalkingIcon,
@@ -30,6 +34,7 @@ export const healthTasks: HealthTask[] = [
     title: "Walking",
     totalNumber: 0,
     performed: false,
+    tooltip: WalkingTooltip
   },
 ];
 

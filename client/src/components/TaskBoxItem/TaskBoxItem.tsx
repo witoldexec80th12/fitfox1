@@ -8,11 +8,12 @@ interface TaskBoxItemProps {
 	title: string;
 	content?: string;
 	point: number;
+	tooltip: React.FC
 	onClick?: () => void;
 }
 
 const TaskBoxItem: React.FC<TaskBoxItemProps> = (props) => {
-	const { icon, photo, title, point, onClick } = props;
+	const { icon, photo, title, point, tooltip: Tooltip, onClick } = props;
 
 	return (
 		<div className="fitfox-box">
@@ -29,6 +30,7 @@ const TaskBoxItem: React.FC<TaskBoxItemProps> = (props) => {
 					</svg>
 				}
 				{title}
+				{Tooltip && <Tooltip />}
 			</button>
 			<p>{point}</p>
 		</div>

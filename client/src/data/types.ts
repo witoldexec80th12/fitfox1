@@ -4,6 +4,7 @@ export interface HealthTask {
     title: string;
     totalNumber: number;
     performed: boolean;
+    tooltip: React.FC
 }
 
 export interface NewTask {
