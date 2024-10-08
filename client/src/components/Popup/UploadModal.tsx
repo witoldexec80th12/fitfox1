@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAppContext } from "../../context/useAppContext";
 import "./popupModal.scss";
 import axios from "axios";
+import SuccessAlert from "../Alert/Success";
 
 interface ModalProps {
   onClose: () => void;
@@ -12,6 +13,7 @@ const UploadModal: React.FC<ModalProps> = ({ onClose }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [uploading, setUploading] = useState<boolean>(false);
   const [uploadUrl, setUploadUrl] = useState<string | null>(null);
+  const [isAlertVisible, setAlertVisible] = useState<boolean>(false);
 
   const { uploadType } = useAppContext();
 
@@ -55,12 +57,21 @@ const UploadModal: React.FC<ModalProps> = ({ onClose }) => {
       );
       console.log("cloudinary res: ", response);
       setUploadUrl(response.data.secure_url); // This is the URL of the uploaded image
-      setUploading(false);
-      alert(`Image URL: ${response.data.secure_url}`);
+      triggerAlert();
+      // alert(`Image URL: ${response.data.secure_url}`);
+      setAlertVisible(true);
     } catch (error) {
       console.error("Error uploading image:", error);
       setUploading(false);
     }
+  };
+
+  const triggerAlert = () => {
+    setAlertVisible(true);
+  };
+
+  const closeAlert = () => {
+    setAlertVisible(false);
   };
 
   return (
@@ -241,6 +252,8 @@ const UploadModal: React.FC<ModalProps> = ({ onClose }) => {
           </div>
         )}
       </div>
+
+      <SuccessAlert isVisible={isAlertVisible} onClose={closeAlert} />
     </div>
   );
 };
