@@ -11,6 +11,7 @@ import ListItem from "../../components/ListItem/ListItem";
 import UploadModal from "../../components/Popup/UploadModal";
 import { ListStyle } from "../../data/types";
 import Header from "../../components/Header/Header";
+import CountDown from "../../components/CountDown/CountDown";
 
 const listStyle: ListStyle = {
     listStyle: {
@@ -55,12 +56,16 @@ const TasksPage: FC = () => {
                     </h2>
                     <p>Simple steps for a healthier life.</p>
                 </div>
+
+                <CountDown />
+
                 <GridLayout>
                     {healthTasks.map((task, index) => (
                         <TaskBoxItem
                             icon={<task.icon />}
                             title={task.title}
                             point={task.totalNumber}
+                            tooltip={task.tooltip}
                             key={index}
                             onClick={() => handleBlockTaskClick(task.title, index)}
                         />

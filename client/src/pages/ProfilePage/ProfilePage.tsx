@@ -7,7 +7,7 @@ import "./profile.scss";
 import ListLayout from "../../components/ListLayout/ListLayout";
 import { pointHistories, userInfos } from "../../data/dumyTasks";
 import ListItem from "../../components/ListItem/ListItem";
-import { CopyIcon, PointsIcon, StarIcon } from "../../data/Icons";
+import { CopyIcon, PointsIcon, StarIcon } from "../../utils/Icons";
 import { ListStyle } from "../../data/types";
 
 const listItemStyle: ListStyle = {

@@ -1,0 +1,27 @@
+.fitfox-tooltip {
+    position: absolute;
+    top: 130%;
+    right: -10%;
+    display: none;
+    width: 190px;
+    padding: 15px;
+    border-radius: 20px;
+    background: linear-gradient(0deg, #FFF7F2 0%, #FFD6BA 100%);
+    box-shadow: 0px 10px 20px 0px #0000001A;
+    // font-family: Plus Jakarta Sans;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 14px;
+    text-align: center;
+    color: black;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: -8px; // Adjust to place the triangle at the top of the tooltip
+        right: 20px; // Adjust for alignment at the right corner
+        border-width: 0 8px 8px 8px; // Triangle size
+        border-style: solid;
+        border-color: transparent transparent #FFD6BA transparent; // Triangle color
+    }
+}
