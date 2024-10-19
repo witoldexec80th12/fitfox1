@@ -14,6 +14,7 @@ import { useAppContext } from "../../context/useAppContext";
 import { ListStyle } from "../../data/types";
 
 import "./tasks.scss";
+import InputModal from "../../components/InputModal/InputModal";
 
 const listStyle: ListStyle = {
     listStyle: {
@@ -27,6 +28,7 @@ const TasksPage: FC = () => {
 
     const [showUploadModal, setShowUploadModal] = useState<boolean>(false);
     const [showSignup, setShowSignup] = useState<boolean>(false);
+    const [showMailing, setShowMailing] = useState<boolean>(false);
 
     useEffect(() => {
         if (!isBloodExamExist) {
@@ -91,12 +93,13 @@ const TasksPage: FC = () => {
                 <ListLayout>
                     <ListItem title={newTasks[0].title} btnPoint={newTasks[0].reward} style={listStyle} onClick={openSignup} />
                     <ListItem title={newTasks[1].title} btnPoint={newTasks[1].reward} style={listStyle} />
-                    <ListItem title={newTasks[2].title} btnPoint={newTasks[2].reward} style={listStyle} />
+                    <ListItem title={newTasks[2].title} btnPoint={newTasks[2].reward} style={listStyle} onClick={() => setShowMailing(true)} />
                 </ListLayout>
             </div>
 
             {showUploadModal && <UploadModal isBloodTest={true} onClose={() => setShowUploadModal(false)} />}
             {showSignup && <SignupModal onClose={closeSignup} />}
+            {showMailing && <InputModal isAccessCode={false} onClose={() => setShowMailing(false)} onPassed={() => setShowMailing(false)} />}
         </div>
     );
 };
