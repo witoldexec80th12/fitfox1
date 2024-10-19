@@ -82,31 +82,4 @@ export const pointHistories: PointHistory[] = [
     }),
     point: 100,
   },
-  {
-    title: "Hold coin bonus",
-    date: new Date().toLocaleDateString("en-GB", {
-      day: "2-digit", // 03
-      month: "short", // Sep
-      year: "numeric", // 2024
-    }),
-    point: 100,
-  },
-  {
-    title: "Hold coin bonus",
-    date: new Date().toLocaleDateString("en-GB", {
-      day: "2-digit", // 03
-      month: "short", // Sep
-      year: "numeric", // 2024
-    }),
-    point: 100,
-  },
-  {
-    title: "Hold coin bonus",
-    date: new Date().toLocaleDateString("en-GB", {
-      day: "2-digit", // 03
-      month: "short", // Sep
-      year: "numeric", // 2024
-    }),
-    point: 100,
-  },
 ];

@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import './modal.scss';
 
 interface SignupModalProps {
+    isChangePwd?: boolean;
     onClose: () => void;
 }
 
-const SignupModal: React.FC<SignupModalProps> = ({ onClose }) => {
+const SignupModal: React.FC<SignupModalProps> = ({ isChangePwd=false, onClose }) => {
     const [email, setEmail] = useState<string>('');
+    const [currentPwd, setCurrentPwd] = useState<string>('')
     const [password, setPassword] = useState<string>('');
     const [confirmPassword, setConfirmPassword] = useState<string>('');
     const [errors, setErrors] = useState<{ email?: string, password?: string, confirmPassword?: string }>({});
@@ -67,10 +69,10 @@ const SignupModal: React.FC<SignupModalProps> = ({ onClose }) => {
                     </svg>
                 </span>
 
-                <h2 className="signup-modal__title">Create Account</h2>
-                <p className="signup-modal__desc">Create an account to access your data securely anywhere and be rewarded.</p>
+                <h2 className="signup-modal__title">{isChangePwd ? "Change Password" : "Create Account"}</h2>
+                <p className="signup-modal__desc">{!isChangePwd && "Create an account to access your data securely anywhere and be rewarded."}</p>
 
-                <div className="signup-modal__input-group">
+                {!isChangePwd ? <div className="signup-modal__input-group">
                     {/* <label htmlFor="email" className="signup-modal__label">Email</label> */}
                     <input
                         type="email"
@@ -82,7 +84,19 @@ const SignupModal: React.FC<SignupModalProps> = ({ onClose }) => {
                         required
                     />
                     {errors.email && <div className="signup-modal__error">{errors.email}</div>}
-                </div>
+                </div> : <div className="signup-modal__input-group">
+                    {/* <label htmlFor="email" className="signup-modal__label">Email</label> */}
+                    <input
+                        type="password"
+                        id="current-password"
+                        className={`signup-modal__input ${errors.email ? 'signup-modal__input--error' : ''}`}
+                        value={currentPwd}
+                        placeholder='Current Password'
+                        onChange={(e) => setCurrentPwd(e.target.value)}
+                        required
+                    />
+                    {errors.email && <div className="signup-modal__error">{errors.email}</div>}
+                </div>}
 
                 <div className="signup-modal__input-group">
                     {/* <label htmlFor="password" className="signup-modal__label">Password</label> */}
@@ -114,7 +128,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ onClose }) => {
                 </div>
 
                 <button className="fitfox-btn" style={{ width: "80%" }} onClick={handleSignup}>
-                    Sign Up
+                    {isChangePwd ? "Continue" : "Sign Up"}
                 </button>
 
                 <p className='signup-modal__footer'>

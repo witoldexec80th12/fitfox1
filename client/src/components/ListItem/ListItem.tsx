@@ -38,13 +38,13 @@ const ListItem: FC<ListItemProps> = (props) => {
       <div className="list-content">
         {renderIcon()}
         <div className="list-main">
-          <h5 style={style.titleStyle}>{title}</h5>
-          {content && <p style={style.textStyle}>{content}</p>}
+          <h5 style={style?.titleStyle}>{title}</h5>
+          {content && <p style={style?.textStyle}>{content}</p>}
         </div>
       </div>
       <div className="list-action" style={style?.btnStyle || {}}>
         {renderBtnIcon()}
-        <p style={style.btnPointStyle}>{btnPoint ? `+${btnPoint}` : ''}</p>
+        <p style={style?.btnPointStyle}>{btnPoint ? `+${btnPoint}` : ''}</p>
       </div>
     </div>
   );

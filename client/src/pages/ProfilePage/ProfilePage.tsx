@@ -1,14 +1,15 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 
 import UserCard from "../../components/UserCard/UserCard";
 import PrivateDen from "../../components/PrivateDen/PrivateDen";
 
 import "./profile.scss";
 import ListLayout from "../../components/ListLayout/ListLayout";
-import { pointHistories, userInfos } from "../../data/dumyTasks";
+import { userInfos } from "../../data/dumyTasks";
 import ListItem from "../../components/ListItem/ListItem";
-import { CopyIcon, PointsIcon, StarIcon } from "../../utils/Icons";
+import { ContactIcon, CopyIcon, KeyIcon } from "../../utils/Icons";
 import { ListStyle } from "../../data/types";
+import SignupModal from "../../components/Signup/Signup";
 
 const listItemStyle: ListStyle = {
   listStyle: {
@@ -29,15 +30,16 @@ const listItemStyle: ListStyle = {
   },
 };
 
-const historyItemStyle: ListStyle = {
+const listStyle: ListStyle = {
   listStyle: {
     width: "100%",
     padding: "15px 20px",
     borderRadius: "15px",
+    cursor: "pointer"
   },
   iconStyle: {
-    width: "50px",
-    height: "50px",
+    width: "40px",
+    height: "40px",
     borderRadius: "50%",
     display: "flex",
     alignItems: "center",
@@ -51,30 +53,11 @@ const historyItemStyle: ListStyle = {
     lineHeight: "20.16px",
     marginBottom: "6px",
   },
-  textStyle: {
-    fontFamily: "inherit",
-    color: "#9F9F9F",
-    fontWeight: "400",
-    fontSize: "14px",
-    lineHeight: "16px",
-  },
-  btnStyle: {
-    display: "flex",
-    alignItems: "center",
-    padding: "6px 7px",
-    border: "1px solid #FFD7BC",
-    borderRadius: "15px",
-    background: "linear-gradient(180deg, #FFF7F2 0%, #FFD6BA 100%)",
-  },
-  btnPointStyle: {
-    color: "black",
-    fontWeight: "600",
-    fontSize: "14px",
-    lineHeight: "16px"
-  }
-};
+}
 
 const ProfilePage: FC = () => {
+  const [showChangePwd, setShowChangePwd] = useState<boolean>(false);
+
   return (
     <div className="fitfox-profile">
       <h2>Profile</h2>
@@ -98,21 +81,39 @@ const ProfilePage: FC = () => {
       </div>
 
       <div className="points-history">
-        <h2>Points History</h2>
+        <h2>Account</h2>
         <ListLayout>
-          {pointHistories.map((pointHistory, index) => (
-            <ListItem
-              icon={PointsIcon}
-              title={pointHistory.title}
-              content={pointHistory.date}
-              btnIcon={StarIcon}
-              btnPoint={pointHistory.point}
-              style={historyItemStyle}
-              key={index}
-            />
-          ))}
+          {[<ListItem
+            title="Change Password"
+            icon={KeyIcon}
+            style={listStyle}
+            onClick={() => setShowChangePwd(true)}
+          />]}
         </ListLayout>
       </div>
+
+      <div className="points-history">
+        <h2>Coming Soon</h2>
+        <ListLayout>
+          <ListItem
+            title="FitFox Referral Program"
+            icon={ContactIcon}
+            style={listStyle}
+          />
+          <ListItem
+            title="Health Privacy Airdrop"
+            icon={ContactIcon}
+            style={listStyle}
+          />
+          <ListItem
+            title="AI Food Tracker"
+            icon={ContactIcon}
+            style={listStyle}
+          />
+        </ListLayout>
+      </div>
+
+      {showChangePwd && <SignupModal isChangePwd={true} onClose={() => setShowChangePwd(false)} />}
     </div>
   );
 };
