@@ -44,8 +44,8 @@ export const newTasks: NewTask[] = [
     reward: 500,
   },
   {
-    title: "Ask a question to our Chatbot",
-    reward: 10,
+    title: "Join Telegram Group",
+    reward: 50,
   },
   {
     title: "Join Mailing List",

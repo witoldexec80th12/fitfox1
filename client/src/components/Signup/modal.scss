@@ -1,0 +1,101 @@
+.signup-modal {
+    position: fixed;
+    inset: 0;
+    background-color: #000000a7;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 200;
+
+    &__content {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        border-radius: 25px;
+        border: 2px solid #ffd6bb;
+        background: linear-gradient(180deg, #fff7f2 0%, #ffd6ba 100%);
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: black;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    }
+
+    &__title {
+        // font-family: Plus Jakarta Sans;
+        font-size: 30px;
+        font-weight: 700;
+        line-height: 37.8px;
+        text-align: center;
+        padding: 0 !important;
+        color: black !important;
+    }
+
+    &__desc {
+        // font-family: Plus Jakarta Sans;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 16px;
+        text-align: center;
+        color: black !important;
+        margin-bottom: 10px;
+    }
+
+    &__input-group {
+        width: 100%;
+        margin-bottom: 17px;
+
+        .signup-modal__label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        .signup-modal__input {
+            width: 100%;
+            padding: 22px 20px;
+            border: 2px solid transparent;
+            border-radius: 15px;
+            transition: border-color 0.3s ease;
+            font-size: 14px;
+            line-height: 16px;
+
+            &--error {
+                border: 2px solid black;
+                // border-color: red;
+            }
+        }
+    }
+
+    &__footer {
+        // font-family: Plus Jakarta Sans;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 16px;
+        text-align: center;
+    }
+
+    &__error {
+        // font-family: Plus Jakarta Sans;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 16px;
+        color: black;
+        padding-left: 8px;
+    }
+}

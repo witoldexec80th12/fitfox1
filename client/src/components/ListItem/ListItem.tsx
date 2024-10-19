@@ -9,10 +9,11 @@ interface ListItemProps {
   btnIcon?: React.FC;
   btnPoint?: number;
   style?: any;
+  onClick?: () => void;
 }
 
 const ListItem: FC<ListItemProps> = (props) => {
-  const { icon, title, content, btnIcon, btnPoint, style } = props;
+  const { icon, title, content, btnIcon, btnPoint, style, onClick } = props;
 
   const renderIcon = () => {
     if (typeof icon === "string") {
@@ -33,7 +34,7 @@ const ListItem: FC<ListItemProps> = (props) => {
   }
 
   return (
-    <div className="fitfox-list-item" style={style?.listStyle || {}}>
+    <div className="fitfox-list-item" style={style?.listStyle || {}} onClick={onClick}>
       <div className="list-content">
         {renderIcon()}
         <div className="list-main">

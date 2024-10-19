@@ -2,16 +2,18 @@ import { FC, useEffect, useState } from "react";
 
 import GridLayout from "../../components/GridLayout/GridLayout";
 import TaskBoxItem from "../../components/TaskBoxItem/TaskBoxItem";
-import { healthTasks, newTasks } from "../../data/dumyTasks";
-import { useAppContext } from "../../context/useAppContext";
-
-import "./tasks.scss";
 import ListLayout from "../../components/ListLayout/ListLayout";
 import ListItem from "../../components/ListItem/ListItem";
 import UploadModal from "../../components/Popup/UploadModal";
-import { ListStyle } from "../../data/types";
 import Header from "../../components/Header/Header";
 import CountDown from "../../components/CountDown/CountDown";
+import SignupModal from "../../components/Signup/Signup";
+
+import { healthTasks, newTasks } from "../../data/dumyTasks";
+import { useAppContext } from "../../context/useAppContext";
+import { ListStyle } from "../../data/types";
+
+import "./tasks.scss";
 
 const listStyle: ListStyle = {
     listStyle: {
@@ -21,9 +23,10 @@ const listStyle: ListStyle = {
 }
 
 const TasksPage: FC = () => {
-    const {isBloodExamExist, setUploadType} = useAppContext();
+    const { isBloodExamExist, setUploadType } = useAppContext();
 
     const [showUploadModal, setShowUploadModal] = useState<boolean>(false);
+    const [showSignup, setShowSignup] = useState<boolean>(false);
 
     useEffect(() => {
         if (!isBloodExamExist) {
@@ -41,6 +44,14 @@ const TasksPage: FC = () => {
         } else {
             console.log("Go Walking Blockchain logic!");
         }
+    }
+
+    const closeSignup = () => {
+        setShowSignup(false);
+    }
+
+    const openSignup = () => {
+        setShowSignup(true);
     }
 
     return (
@@ -78,15 +89,14 @@ const TasksPage: FC = () => {
                     New Tasks
                 </h2>
                 <ListLayout>
-                    {
-                        newTasks.map((newTask, index) => 
-                            <ListItem title={newTask.title} btnPoint={newTask.reward} style={listStyle} key={index} />
-                        )
-                    }
+                    <ListItem title={newTasks[0].title} btnPoint={newTasks[0].reward} style={listStyle} onClick={openSignup} />
+                    <ListItem title={newTasks[1].title} btnPoint={newTasks[1].reward} style={listStyle} />
+                    <ListItem title={newTasks[2].title} btnPoint={newTasks[2].reward} style={listStyle} />
                 </ListLayout>
             </div>
-            
+
             {showUploadModal && <UploadModal isBloodTest={true} onClose={() => setShowUploadModal(false)} />}
+            {showSignup && <SignupModal onClose={closeSignup} />}
         </div>
     );
 };

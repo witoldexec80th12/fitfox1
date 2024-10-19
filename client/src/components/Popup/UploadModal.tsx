@@ -3,6 +3,7 @@ import { useAppContext } from "../../context/useAppContext";
 import "./popupModal.scss";
 import axios from "axios";
 import SuccessAlert from "../Alert/Success";
+import InputModal from "../InputModal/InputModal";
 
 interface ModalProps {
   isBloodTest?: boolean;
@@ -15,6 +16,7 @@ const UploadModal: React.FC<ModalProps> = ({ isBloodTest = false, onClose }) => 
   const [uploading, setUploading] = useState<boolean>(false);
   const [uploadUrl, setUploadUrl] = useState<string | null>(null);
   const [isAlertVisible, setAlertVisible] = useState<boolean>(false);
+  const [showInputModal, setShowInputModal] = useState<boolean>(false);
 
   const { uploadType } = useAppContext();
 
@@ -66,6 +68,14 @@ const UploadModal: React.FC<ModalProps> = ({ isBloodTest = false, onClose }) => 
       setUploading(false);
     }
   };
+
+  const showAccessCode = () => {
+    setShowInputModal(true);
+  }
+
+  const closeAccessCode = () => {
+    setShowInputModal(false);
+  }
 
   const triggerAlert = () => {
     setAlertVisible(true);
@@ -253,11 +263,12 @@ const UploadModal: React.FC<ModalProps> = ({ isBloodTest = false, onClose }) => 
           </div>
         )}
 
-        <p className="text-bottom">No results to upload? Enter your access code <span>here</span></p>
+        <p className="text-bottom">No results to upload? Enter your access code <span onClick={showAccessCode}>here</span></p>
       </div>
 
 
       {isBloodTest && <SuccessAlert isVisible={isAlertVisible} onClose={closeAlert} />}
+      {showInputModal && <InputModal isAccessCode={true} onClose={closeAccessCode} onPassed={onClose} />}
     </div>
   );
 };
