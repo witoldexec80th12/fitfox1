@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './inputModal.scss';
+import { updateUserInfo } from '../../services/dataService';
+import { useAppContext } from '../../context/useAppContext';
 
 interface InputModalProps {
     isAccessCode: boolean;
@@ -8,6 +10,8 @@ interface InputModalProps {
 }
 
 const InputModal: React.FC<InputModalProps> = ({ isAccessCode, onClose, onPassed }) => {
+    const {userID, setisAvailableAccess} = useAppContext();
+
     const [value, setValue] = useState<string>("");
     const [errors, setErrors] = useState<string>("");
 
@@ -15,12 +19,20 @@ const InputModal: React.FC<InputModalProps> = ({ isAccessCode, onClose, onPassed
         return value.trim() !== '';
     };
 
-    const handleSignup = () => {
+    const handleSignup = async () => {
         // Validate email
         if (!validateValue(value)) {
             setErrors("This field is required.")
         } else {
-            onPassed();
+            if (isAccessCode) {
+                const result = await updateUserInfo(userID, {accessCode: value});
+                if (result.success) {
+                    setisAvailableAccess(true);
+                    onPassed();
+                } else {
+                    setErrors(result.message);
+                }
+            }
             // Proceed Access Code or Mailing List
             console.log('Action proceed.', errors);
         }

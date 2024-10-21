@@ -24,18 +24,18 @@ const listStyle: ListStyle = {
 }
 
 const TasksPage: FC = () => {
-    const { isBloodExamExist, setUploadType } = useAppContext();
+    const { isAvailableAccess, setUploadType } = useAppContext();
 
     const [showUploadModal, setShowUploadModal] = useState<boolean>(false);
     const [showSignup, setShowSignup] = useState<boolean>(false);
     const [showMailing, setShowMailing] = useState<boolean>(false);
 
     useEffect(() => {
-        if (!isBloodExamExist) {
+        if (!isAvailableAccess) {
             setUploadType('blood');
             setShowUploadModal(true);
         }
-    }, [isBloodExamExist, setUploadType]);
+    }, [isAvailableAccess, setUploadType]);
 
     const handleBlockTaskClick = (taskTitle: string, index: number) => {
         console.log('Clicked Task Block Item!', taskTitle, index);

@@ -4,6 +4,7 @@ import "./popupModal.scss";
 import axios from "axios";
 import SuccessAlert from "../Alert/Success";
 import InputModal from "../InputModal/InputModal";
+import { updateUserInfo } from "../../services/dataService";
 
 interface ModalProps {
   isBloodTest?: boolean;
@@ -14,11 +15,11 @@ const UploadModal: React.FC<ModalProps> = ({ isBloodTest = false, onClose }) => 
   const [file, setFile] = useState<File | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [uploading, setUploading] = useState<boolean>(false);
-  const [uploadUrl, setUploadUrl] = useState<string | null>(null);
   const [isAlertVisible, setAlertVisible] = useState<boolean>(false);
   const [showInputModal, setShowInputModal] = useState<boolean>(false);
 
-  const { uploadType } = useAppContext();
+  const { uploadType, userID, isAvailableAccess, setisAvailableAccess } = useAppContext();
+  console.log("userID: ", userID)
 
   useEffect(() => {
     setTimeout(() => {
@@ -29,10 +30,8 @@ const UploadModal: React.FC<ModalProps> = ({ isBloodTest = false, onClose }) => 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files ? event.target.files[0] : null;
     if (selectedFile) {
-      console.log("File Name:", selectedFile.name);
-      console.log("File Type:", selectedFile.type);
-      console.log("File Size:", selectedFile.size);
       setFile(selectedFile);
+      console.log("selected file: ", selectedFile);
     }
   };
 
@@ -40,8 +39,8 @@ const UploadModal: React.FC<ModalProps> = ({ isBloodTest = false, onClose }) => 
     console.log(uploadType);
     if (!file) return;
 
-    const cloudName = import.meta.env.CLOUDINARY_CLOUD_NAME; // Replace with your Cloudinary cloud name
-    const uploadPreset = import.meta.env.CLOUDINARY_UPLOAD_PRESET; // Replace with your Cloudinary upload preset
+    const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+    const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
     const formData = new FormData();
     formData.append("file", file);
@@ -58,11 +57,20 @@ const UploadModal: React.FC<ModalProps> = ({ isBloodTest = false, onClose }) => 
           },
         }
       );
-      console.log("cloudinary res: ", response);
-      setUploadUrl(response.data.secure_url); // This is the URL of the uploaded image
-      triggerAlert();
-      // alert(`Image URL: ${response.data.secure_url}`);
-      setAlertVisible(true);
+      console.log("Uploaded image url: ", response.data.secure_url);
+      const labData = response.data.secure_url;
+      const result = await updateUserInfo(userID, {labData});
+
+      if (result.success) {
+        setisAvailableAccess(true);
+        triggerAlert();
+        setAlertVisible(true);
+        setUploading(false);
+        onClose();
+      } else {
+        alert(result.message);
+        setUploading(false);
+      }
     } catch (error) {
       console.error("Error uploading image:", error);
       setUploading(false);
@@ -85,10 +93,16 @@ const UploadModal: React.FC<ModalProps> = ({ isBloodTest = false, onClose }) => 
     setAlertVisible(false);
   };
 
+  const closeModal = () => {
+    if (isAvailableAccess) {
+      onClose();
+    }
+  }
+
   return (
     <div className={`popup-modal`}>
       <div className={`modal-content ${isOpen ? "open" : ""}`}>
-        <span className="close" onClick={onClose}>
+        <span className="close" onClick={closeModal}>
           <svg
             width="14"
             height="14"
@@ -245,7 +259,7 @@ const UploadModal: React.FC<ModalProps> = ({ isBloodTest = false, onClose }) => 
                 />
               </svg>
               <h6>Upload your file</h6>
-              <p>Supported format: JPG, PDF (5MB)</p>
+              {file ? <p style={{color: "#00B0B0"}}>{file.name} selected</p> : <p>Supported format: JPG, PDF (5MB)</p>}
             </div>
           </label>
         </div>
@@ -253,15 +267,6 @@ const UploadModal: React.FC<ModalProps> = ({ isBloodTest = false, onClose }) => 
         <button className="fitfox-btn" onClick={handleSubmit} disabled={uploading}>
           {uploading ? "Uploading..." : "Upload Results"}
         </button>
-
-        {uploadUrl && (
-          <div className="upload-result">
-            <p>Upload successful! Here's your image URL:</p>
-            <a href={uploadUrl} target="_blank" rel="noopener noreferrer">
-              {uploadUrl}
-            </a>
-          </div>
-        )}
 
         <p className="text-bottom">No results to upload? Enter your access code <span onClick={showAccessCode}>here</span></p>
       </div>
