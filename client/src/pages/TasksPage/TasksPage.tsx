@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from "react";
+import { initUtils } from '@telegram-apps/sdk';
 
 import GridLayout from "../../components/GridLayout/GridLayout";
 import TaskBoxItem from "../../components/TaskBoxItem/TaskBoxItem";
@@ -15,6 +16,7 @@ import { ListStyle } from "../../data/types";
 
 import "./tasks.scss";
 import InputModal from "../../components/InputModal/InputModal";
+import SuccessAlert from "../../components/Alert/Success";
 
 const listStyle: ListStyle = {
     listStyle: {
@@ -24,12 +26,15 @@ const listStyle: ListStyle = {
 }
 
 const TasksPage: FC = () => {
-    const { isAvailableAccess, setUploadType, userDailyTask } = useAppContext();
+    const utils = initUtils();
+    const { isAvailableAccess, setUploadType, userDailyTask, email, userData } = useAppContext();
 
     const [isBloodTest, setIsBloodTest] = useState<boolean>(false);
     const [showUploadModal, setShowUploadModal] = useState<boolean>(false);
     const [showSignup, setShowSignup] = useState<boolean>(false);
     const [showMailing, setShowMailing] = useState<boolean>(false);
+    const [alertContent, setAlertContent] = useState<string>("")
+    const [isAlertVisible, setAlertVisible] = useState<boolean>(false);
 
     console.log("user daily task: ", userDailyTask);
 
@@ -44,13 +49,33 @@ const TasksPage: FC = () => {
     const handleBlockTaskClick = (taskTitle: string, index: number) => {
         console.log('Clicked Task Block Item!', taskTitle, index);
         // if (index !== 3) {
-            const uploadType = taskTitle.toLowerCase();
-            setUploadType(uploadType);
-            setIsBloodTest(false);
-            setShowUploadModal(true);
+        const uploadType = taskTitle.toLowerCase();
+        setUploadType(uploadType);
+        setIsBloodTest(false);
+        setShowUploadModal(true);
         // } else {
         //     console.log("Go Walking Blockchain logic!");
         // }
+    }
+
+    const joinTelegramGroup = () => {
+        console.log("user data: ", userData);
+        if (!userData.tgGroupId) {
+            setAlertContent("You don't have Group ID yet.")
+            setAlertVisible(true);
+            return;
+        }
+        utils.openTelegramLink(userData.tgGroupId);
+    }
+
+    const joinMailingList = () => {
+        console.log("email: ", email)
+        if (!email) {
+            setAlertContent("You need to Sign up to join.")
+            setAlertVisible(true);
+            return;
+        }
+        setShowMailing(true);
     }
 
     const closeSignup = () => {
@@ -60,6 +85,10 @@ const TasksPage: FC = () => {
     const openSignup = () => {
         setShowSignup(true);
     }
+
+    const closeAlert = () => {
+        setAlertVisible(false);
+    };
 
     return (
         <div className="fitfox-tasks">
@@ -98,14 +127,15 @@ const TasksPage: FC = () => {
                 </h2>
                 <ListLayout>
                     <ListItem title={newTasks[0].title} btnPoint={newTasks[0].reward} style={listStyle} onClick={openSignup} />
-                    <ListItem title={newTasks[1].title} btnPoint={newTasks[1].reward} style={listStyle} />
-                    <ListItem title={newTasks[2].title} btnPoint={newTasks[2].reward} style={listStyle} onClick={() => setShowMailing(true)} />
+                    <ListItem title={newTasks[1].title} btnPoint={newTasks[1].reward} style={listStyle} onClick={joinTelegramGroup} />
+                    <ListItem title={newTasks[2].title} btnPoint={newTasks[2].reward} style={listStyle} onClick={joinMailingList} />
                 </ListLayout>
             </div>
 
-            {showUploadModal && <UploadModal isBloodTest={isBloodTest} onClose={() => setShowUploadModal(false)} />}
-            {showSignup && <SignupModal onClose={closeSignup} />}
-            {showMailing && <InputModal isAccessCode={false} onClose={() => setShowMailing(false)} onPassed={() => setShowMailing(false)} />}
+            <SuccessAlert isVisible={isAlertVisible} onClose={closeAlert} content={alertContent} />
+            {showUploadModal && <UploadModal isBloodTest={isBloodTest} onClose={() => setShowUploadModal(false)} setAlertVisible={setAlertVisible} />}
+            {showSignup && <SignupModal onClose={closeSignup} setAlertVisible={setAlertVisible} />}
+            {showMailing && <InputModal isAccessCode={false} setAlertVisible={setAlertVisible} onClose={() => setShowMailing(false)} onPassed={() => setShowMailing(false)} />}
         </div>
     );
 };

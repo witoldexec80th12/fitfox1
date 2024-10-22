@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
 import './modal.scss';
+import { updateUser } from '../../services/userService';
+import { useAppContext } from '../../context/useAppContext';
 
 interface SignupModalProps {
     isChangePwd?: boolean;
+    setAlertVisible: (visible: boolean) => void;
     onClose: () => void;
 }
 
-const SignupModal: React.FC<SignupModalProps> = ({ isChangePwd=false, onClose }) => {
-    const [email, setEmail] = useState<string>('');
+const SignupModal: React.FC<SignupModalProps> = ({ isChangePwd=false, onClose, setAlertVisible }) => {
+    const {userID, setEmail} = useAppContext();
+
+    const [formEmail, setformEmail] = useState<string>('');
     const [currentPwd, setCurrentPwd] = useState<string>('')
     const [password, setPassword] = useState<string>('');
     const [confirmPassword, setConfirmPassword] = useState<string>('');
     const [errors, setErrors] = useState<{ email?: string, password?: string, confirmPassword?: string }>({});
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const validateEmail = (email: string) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -25,11 +31,13 @@ const SignupModal: React.FC<SignupModalProps> = ({ isChangePwd=false, onClose })
         return password.length >= minLength && hasNumber.test(password) && hasUpperCase.test(password);
     };
 
-    const handleSignup = () => {
+    const handleSignup = async () => {
+        setIsLoading(true);
+
         const newErrors: { email?: string, password?: string, confirmPassword?: string } = {};
 
         // Validate email
-        if (!validateEmail(email)) {
+        if (!validateEmail(formEmail)) {
             newErrors.email = 'Please enter a valid email address';
         }
 
@@ -47,8 +55,15 @@ const SignupModal: React.FC<SignupModalProps> = ({ isChangePwd=false, onClose })
 
         if (Object.keys(newErrors).length === 0) {
             // Proceed with signup logic
-            console.log('Sign up with:', { email, password });
+            const result = await updateUser(userID, {email: formEmail});
+            if (result.success) {
+                setEmail(result.data.email);
+                setIsLoading(false);
+                setAlertVisible(true);
+                onClose();
+            }
         }
+        setIsLoading(false);
     };
 
     return (
@@ -78,9 +93,9 @@ const SignupModal: React.FC<SignupModalProps> = ({ isChangePwd=false, onClose })
                         type="email"
                         id="email"
                         className={`signup-modal__input ${errors.email ? 'signup-modal__input--error' : ''}`}
-                        value={email}
+                        value={formEmail}
                         placeholder='EMAIL ADDRESS'
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => setformEmail(e.target.value)}
                         required
                     />
                     {errors.email && <div className="signup-modal__error">{errors.email}</div>}
@@ -128,7 +143,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isChangePwd=false, onClose })
                 </div>
 
                 <button className="fitfox-btn" style={{ width: "80%" }} onClick={handleSignup}>
-                    {isChangePwd ? "Continue" : "Sign Up"}
+                    {isLoading ? "Loading.." : isChangePwd ? "Continue" : "Sign Up"}
                 </button>
 
                 <p className='signup-modal__footer'>

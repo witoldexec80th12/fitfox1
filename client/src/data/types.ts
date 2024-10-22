@@ -33,3 +33,10 @@ export interface ListStyle {
     btnIconStyle?: React.CSSProperties;
     btnPointStyle?: React.CSSProperties;
 }
+
+export interface UserData {
+    tgGroupId: string;
+    stepnId: string;
+    stepnPassword: string;
+    labData: string;
+}

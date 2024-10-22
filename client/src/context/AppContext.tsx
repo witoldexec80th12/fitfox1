@@ -2,7 +2,7 @@ import React, { createContext, useState, ReactNode, useEffect } from "react";
 
 import defaultAvatar from "../assets/images/defaultAvatar.png";
 import { initCloudStorage, initInitData } from "@telegram-apps/sdk";
-import { HealthTask } from "../data/types";
+import { HealthTask, UserData } from "../data/types";
 import { healthTasks } from "../data/dumyTasks";
 import { getUser } from "../services/userService";
 import { getMealInfo } from "../services/dataService";
@@ -18,6 +18,8 @@ interface AppContextProps {
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   point: number;
   setPoint: React.Dispatch<React.SetStateAction<number>>;
+  userData: UserData;
+  setUserData: React.Dispatch<React.SetStateAction<UserData>>;
   isAvailableAccess: boolean;
   setisAvailableAccess: React.Dispatch<React.SetStateAction<boolean>>;
   uploadType: string; // breakfast, lunch, dinner, walk, blood
@@ -34,17 +36,21 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   const cloudStorage = initCloudStorage();
   const initData = initInitData();
 
-  // const [score, setScore] = useState<number>(0);
   const [userName, setUserName] = useState<string>('');
   const [userID, setUserID] = useState<string>('');
   // const [userPic, setUserPic] = useState<string>('');
-  // const [showInviteModal, setShowInviteModal] = useState<boolean>(false);
   const [isAvailableAccess, setisAvailableAccess] = useState<boolean>(false);
   const [uploadType, setUploadType] = useState<string>("blood");
   const [avatar, setAvatar] = useState<string>(defaultAvatar);
   const [fullName, setFullName] = useState<string>("Jones Duo");
-  const [email, setEmail] = useState<string>("jones.duo@gmail.com");
+  const [email, setEmail] = useState<string>("");
   const [point, setPoint] = useState<number>(0);
+  const [userData, setUserData] = useState<UserData>({
+    tgGroupId: "",
+    stepnId: "",
+    stepnPassword: "",
+    labData: ""
+  })
   const [userDailyTask, setUserDailyTask] = useState<HealthTask[]>(healthTasks);
 
   useEffect(() => {
@@ -84,7 +90,14 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
         if (result.data.userInfo.accessCode || result.data.userInfo.labData) {
           setisAvailableAccess(true);
           setFullName(result.data.first_name);
+          setEmail(result.data.email ? result.data.email : "");
           setPoint(result.data.point);
+          setUserData({
+            tgGroupId: result.data.userInfo.tgGroupId,
+            stepnId: result.data.userInfo.stepnId,
+            stepnPassword: result.data.userInfo.stepnPassword,
+            labData: result.data.userInfo.labData,
+          })
         }
       }
     }
@@ -139,6 +152,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
         setPoint,
         userName,
         userID,
+        userData,
+        setUserData,
         userDailyTask,
         setUserDailyTask,
       }}

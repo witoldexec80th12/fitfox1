@@ -2,21 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useAppContext } from "../../context/useAppContext";
 import "./popupModal.scss";
 import axios from "axios";
-import SuccessAlert from "../Alert/Success";
 import InputModal from "../InputModal/InputModal";
 import { updateDailyTask, updateUserInfo } from "../../services/dataService";
 import { ApiResponse } from "../../services/types";
 
 interface ModalProps {
   isBloodTest?: boolean;
+  setAlertVisible: (visible: boolean) => void;
   onClose: () => void;
 }
 
-const UploadModal: React.FC<ModalProps> = ({ isBloodTest = false, onClose }) => {
+const UploadModal: React.FC<ModalProps> = ({ isBloodTest = false, onClose, setAlertVisible }) => {
   const [file, setFile] = useState<File | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [uploading, setUploading] = useState<boolean>(false);
-  const [isAlertVisible, setAlertVisible] = useState<boolean>(false);
   const [showInputModal, setShowInputModal] = useState<boolean>(false);
 
   const { uploadType, userID, isAvailableAccess, setisAvailableAccess, setUserDailyTask } = useAppContext();
@@ -94,10 +93,6 @@ const UploadModal: React.FC<ModalProps> = ({ isBloodTest = false, onClose }) => 
 
   const triggerAlert = () => {
     setAlertVisible(true);
-  };
-
-  const closeAlert = () => {
-    setAlertVisible(false);
   };
 
   const closeModal = () => {
@@ -279,7 +274,7 @@ const UploadModal: React.FC<ModalProps> = ({ isBloodTest = false, onClose }) => 
       </div>
 
 
-      <SuccessAlert isVisible={isAlertVisible} onClose={closeAlert} />
+
       {showInputModal && <InputModal isAccessCode={true} onClose={closeAccessCode} onPassed={onClose} />}
     </div>
   );

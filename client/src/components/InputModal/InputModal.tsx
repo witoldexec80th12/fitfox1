@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import './inputModal.scss';
 import { updateUserInfo } from '../../services/dataService';
 import { useAppContext } from '../../context/useAppContext';
+import { addMaillist } from '../../services/userService';
 
 interface InputModalProps {
     isAccessCode: boolean;
+    setAlertVisible?: (visible: boolean) => void;
     onClose: () => void;
     onPassed: () => void;
 }
 
-const InputModal: React.FC<InputModalProps> = ({ isAccessCode, onClose, onPassed }) => {
-    const {userID, setisAvailableAccess} = useAppContext();
+const InputModal: React.FC<InputModalProps> = ({ isAccessCode, setAlertVisible, onClose, onPassed }) => {
+    const { userID, setisAvailableAccess } = useAppContext();
 
     const [value, setValue] = useState<string>("");
     const [errors, setErrors] = useState<string>("");
@@ -25,16 +27,23 @@ const InputModal: React.FC<InputModalProps> = ({ isAccessCode, onClose, onPassed
             setErrors("This field is required.")
         } else {
             if (isAccessCode) {
-                const result = await updateUserInfo(userID, {accessCode: value});
+                const result = await updateUserInfo(userID, { accessCode: value });
                 if (result.success) {
                     setisAvailableAccess(true);
                     onPassed();
                 } else {
                     setErrors(result.message);
                 }
+            } else {
+                const result = await addMaillist(userID, value);
+                if (result.success) {
+                    if (setAlertVisible)
+                        setAlertVisible(true);
+                    onPassed();
+                } else {
+                    setErrors(result.message)
+                }
             }
-            // Proceed Access Code or Mailing List
-            console.log('Action proceed.', errors);
         }
     };
 
