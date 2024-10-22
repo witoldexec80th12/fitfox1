@@ -1,15 +1,29 @@
+import mongoose from "mongoose";
 import Meal from "../models/Meal.js";
+import User from "../models/User.js";
 
 // Helper function to normalize the date (remove time)
 const normalizeDate = (date) => {
-  const normalizedDate = new Date(date);
-  normalizedDate.setHours(0, 0, 0, 0); // Set time to 00:00:00
-  return normalizedDate;
+  const requestDate = new Date(date);
+  requestDate.setHours(0, 0, 0, 0); // Set time to 00:00:00
+  return requestDate;
+};
+
+const generateDate = (dateString) => {
+  const [day, month, year] = dateString.split("-");
+  const date = new Date(year, month - 1, day);
+  return date
 };
 
 // Add or update daily meal photos
 export const addMealPhotos = async (req, res) => {
   const { userId, meals } = req.body;
+  console.log("userId and meals: ", userId, meals);
+
+  const user = await User.findOne({ tgId: userId });
+
+  if (!user) return res.status(404).json({ error: "User not found" });
+
   const date = normalizeDate(new Date()); // Always use the current date, normalized
 
   try {
@@ -25,27 +39,15 @@ export const addMealPhotos = async (req, res) => {
       });
       await newMeal.save();
       return res.status(201).json(newMeal);
+    } else {
+      // Update the existing meal document
+      mealDoc.meals = {
+        ...mealDoc.meals,   // Merge existing meals (assuming it's an object)
+        ...meals            // Merge with new meals (you may want different logic here)
+      };
+      const updatedMealDoc = await mealDoc.save();
+      return res.status(200).json(updatedMealDoc);
     }
-
-    // Check if the provided meal(s) already exist in the document
-    for (const mealKey in meals) {
-      if (meals[mealKey] && mealDoc.meals[mealKey]) {
-        return res
-          .status(400)
-          .json({ error: `${mealKey} already exists for this date` });
-      }
-    }
-
-    // Update the document with the new meal(s) if they don't exist
-    for (const mealKey in meals) {
-      if (meals[mealKey]) {
-        mealDoc.meals[mealKey] = meals[mealKey];
-      }
-    }
-
-    // Save the updated meal document
-    await mealDoc.save();
-    return res.status(200).json(mealDoc);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -55,7 +57,8 @@ export const addMealPhotos = async (req, res) => {
 export const getMeals = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const requestedDate = normalizeDate(req.params.date); // Normalize requested date
+    const requestedDate = generateDate(req.params.date); // Normalize requested date
+    console.log("userId and requestedDate: ", userId, requestedDate);
 
     // Find the meal document where the date falls within the given day (ignoring time)
     const meals = await Meal.findOne({

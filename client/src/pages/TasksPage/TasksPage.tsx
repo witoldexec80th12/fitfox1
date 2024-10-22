@@ -9,7 +9,7 @@ import Header from "../../components/Header/Header";
 import CountDown from "../../components/CountDown/CountDown";
 import SignupModal from "../../components/Signup/Signup";
 
-import { healthTasks, newTasks } from "../../data/dumyTasks";
+import { newTasks } from "../../data/dumyTasks";
 import { useAppContext } from "../../context/useAppContext";
 import { ListStyle } from "../../data/types";
 
@@ -24,28 +24,33 @@ const listStyle: ListStyle = {
 }
 
 const TasksPage: FC = () => {
-    const { isAvailableAccess, setUploadType } = useAppContext();
+    const { isAvailableAccess, setUploadType, userDailyTask } = useAppContext();
 
+    const [isBloodTest, setIsBloodTest] = useState<boolean>(false);
     const [showUploadModal, setShowUploadModal] = useState<boolean>(false);
     const [showSignup, setShowSignup] = useState<boolean>(false);
     const [showMailing, setShowMailing] = useState<boolean>(false);
 
+    console.log("user daily task: ", userDailyTask);
+
     useEffect(() => {
         if (!isAvailableAccess) {
             setUploadType('blood');
+            setIsBloodTest(true);
             setShowUploadModal(true);
         }
     }, [isAvailableAccess, setUploadType]);
 
     const handleBlockTaskClick = (taskTitle: string, index: number) => {
         console.log('Clicked Task Block Item!', taskTitle, index);
-        if (index !== 3) {
+        // if (index !== 3) {
             const uploadType = taskTitle.toLowerCase();
             setUploadType(uploadType);
+            setIsBloodTest(false);
             setShowUploadModal(true);
-        } else {
-            console.log("Go Walking Blockchain logic!");
-        }
+        // } else {
+        //     console.log("Go Walking Blockchain logic!");
+        // }
     }
 
     const closeSignup = () => {
@@ -73,9 +78,10 @@ const TasksPage: FC = () => {
                 <CountDown />
 
                 <GridLayout>
-                    {healthTasks.map((task, index) => (
+                    {userDailyTask.map((task, index) => (
                         <TaskBoxItem
                             icon={<task.icon />}
+                            photo={task.photo}
                             title={task.title}
                             point={task.totalNumber}
                             tooltip={task.tooltip}
@@ -97,7 +103,7 @@ const TasksPage: FC = () => {
                 </ListLayout>
             </div>
 
-            {showUploadModal && <UploadModal isBloodTest={true} onClose={() => setShowUploadModal(false)} />}
+            {showUploadModal && <UploadModal isBloodTest={isBloodTest} onClose={() => setShowUploadModal(false)} />}
             {showSignup && <SignupModal onClose={closeSignup} />}
             {showMailing && <InputModal isAccessCode={false} onClose={() => setShowMailing(false)} onPassed={() => setShowMailing(false)} />}
         </div>

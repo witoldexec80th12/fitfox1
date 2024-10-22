@@ -5,6 +5,7 @@ import { initCloudStorage, initInitData } from "@telegram-apps/sdk";
 import { HealthTask } from "../data/types";
 import { healthTasks } from "../data/dumyTasks";
 import { getUser } from "../services/userService";
+import { getMealInfo } from "../services/dataService";
 
 interface AppContextProps {
   userName: string;
@@ -17,7 +18,7 @@ interface AppContextProps {
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   isAvailableAccess: boolean;
   setisAvailableAccess: React.Dispatch<React.SetStateAction<boolean>>;
-  uploadType: string; // breakfast, lunch, dinner, blood
+  uploadType: string; // breakfast, lunch, dinner, walk, blood
   setUploadType: React.Dispatch<React.SetStateAction<string>>;
   userDailyTask: HealthTask[];
   setUserDailyTask: React.Dispatch<React.SetStateAction<HealthTask[]>>;
@@ -47,33 +48,34 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     const tgUser = initData?.user;
 
     if (tgUser) {
-        setUserName(tgUser.username || tgUser.firstName);
+      setUserName(tgUser.username || tgUser.firstName);
 
-        // getUserProfilePicture(tgUser.id || 1).then(photoUrl => {
-        //     if (photoUrl) {
-        //         console.log("User's profile picture URL:", photoUrl);
-        //         setUserPic(photoUrl);
-        //     } else {
-        //         console.log("Failed to retrieve the profile picture.");
-        //     }
-        // });
+      // getUserProfilePicture(tgUser.id || 1).then(photoUrl => {
+      //     if (photoUrl) {
+      //         console.log("User's profile picture URL:", photoUrl);
+      //         setUserPic(photoUrl);
+      //     } else {
+      //         console.log("Failed to retrieve the profile picture.");
+      //     }
+      // });
 
-        cloudStorage.get('userID')
-            .then((userID) => {
-                if (userID) {
-                    setUserID(userID);
-                } else {
-                    cloudStorage.set('userID', tgUser.id.toString());
-                    setUserID(tgUser.id.toString());
-                }
-            })
+      cloudStorage.get('userID')
+        .then((userID) => {
+          if (userID) {
+            setUserID(userID);
+          } else {
+            cloudStorage.set('userID', tgUser.id.toString());
+            setUserID(tgUser.id.toString());
+          }
+        })
     } else {
-        console.log('Failed to get user data.');
+      console.log('Failed to get user data.');
     }
   }, [initData?.user, cloudStorage]);
 
   useEffect(() => {
     const getUserInfo = async () => {
+      if (!userID) return;
       const result = await getUser(userID);
       if (result.success) {
         if (result.data.userInfo.accessCode || result.data.userInfo.labData) {
@@ -81,8 +83,38 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
         }
       }
     }
-
     getUserInfo();
+  }, [userID])
+
+  useEffect(() => {
+    const getInfo = async () => {
+      if (!userID) return
+      const result = await getMealInfo(userID);
+      if (result.success) {
+        console.log("result: ", result.data);
+        setUserDailyTask((prevTask) => {
+          return [
+            {
+              ...prevTask[0],
+              photo: result.data.meals.breakfast ? result.data.meals.breakfast : ""
+            },
+            {
+              ...prevTask[1],
+              photo: result.data.meals.lunch ? result.data.meals.lunch : ""
+            },
+            {
+              ...prevTask[2],
+              photo: result.data.meals.dinner ? result.data.meals.dinner : ""
+            },
+            {
+              ...prevTask[3],
+              photo: result.data.meals.walking ? result.data.meals.walking : ""
+            },
+          ]
+        })
+      }
+    }
+    getInfo();
   }, [userID])
 
   return (

@@ -4,7 +4,8 @@ import "./popupModal.scss";
 import axios from "axios";
 import SuccessAlert from "../Alert/Success";
 import InputModal from "../InputModal/InputModal";
-import { updateUserInfo } from "../../services/dataService";
+import { updateDailyTask, updateUserInfo } from "../../services/dataService";
+import { ApiResponse } from "../../services/types";
 
 interface ModalProps {
   isBloodTest?: boolean;
@@ -18,7 +19,7 @@ const UploadModal: React.FC<ModalProps> = ({ isBloodTest = false, onClose }) => 
   const [isAlertVisible, setAlertVisible] = useState<boolean>(false);
   const [showInputModal, setShowInputModal] = useState<boolean>(false);
 
-  const { uploadType, userID, isAvailableAccess, setisAvailableAccess } = useAppContext();
+  const { uploadType, userID, isAvailableAccess, setisAvailableAccess, setUserDailyTask } = useAppContext();
   console.log("userID: ", userID)
 
   useEffect(() => {
@@ -58,8 +59,14 @@ const UploadModal: React.FC<ModalProps> = ({ isBloodTest = false, onClose }) => 
         }
       );
       console.log("Uploaded image url: ", response.data.secure_url);
-      const labData = response.data.secure_url;
-      const result = await updateUserInfo(userID, {labData});
+      const uploadingData = response.data.secure_url;
+      let result: ApiResponse;
+
+      if (uploadType === 'blood')
+        result = await updateUserInfo(userID, { labData: uploadingData });
+      else {
+        result = await updateDailyTask(userID, uploadType, uploadingData, setUserDailyTask)
+      }
 
       if (result.success) {
         setisAvailableAccess(true);
@@ -94,7 +101,7 @@ const UploadModal: React.FC<ModalProps> = ({ isBloodTest = false, onClose }) => 
   };
 
   const closeModal = () => {
-    if (isAvailableAccess) {
+    if (!isBloodTest || isAvailableAccess) {
       onClose();
     }
   }
@@ -259,7 +266,7 @@ const UploadModal: React.FC<ModalProps> = ({ isBloodTest = false, onClose }) => 
                 />
               </svg>
               <h6>Upload your file</h6>
-              {file ? <p style={{color: "#00B0B0"}}>{file.name} selected</p> : <p>Supported format: JPG, PDF (5MB)</p>}
+              {file ? <p style={{ color: "#00B0B0" }}>{file.name} selected</p> : <p>Supported format: JPG, PDF (5MB)</p>}
             </div>
           </label>
         </div>
@@ -268,11 +275,11 @@ const UploadModal: React.FC<ModalProps> = ({ isBloodTest = false, onClose }) => 
           {uploading ? "Uploading..." : "Upload Results"}
         </button>
 
-        <p className="text-bottom">No results to upload? Enter your access code <span onClick={showAccessCode}>here</span></p>
+        {isBloodTest && <p className="text-bottom">No results to upload? Enter your access code <span onClick={showAccessCode}>here</span></p>}
       </div>
 
 
-      {isBloodTest && <SuccessAlert isVisible={isAlertVisible} onClose={closeAlert} />}
+      <SuccessAlert isVisible={isAlertVisible} onClose={closeAlert} />
       {showInputModal && <InputModal isAccessCode={true} onClose={closeAccessCode} onPassed={onClose} />}
     </div>
   );
