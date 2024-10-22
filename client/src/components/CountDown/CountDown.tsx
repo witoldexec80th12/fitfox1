@@ -27,22 +27,25 @@ const CountDown: React.FC = () => {
         return () => clearInterval(countdown); // Cleanup on component unmount
     }, []);
 
+    // Helper to add leading zero if the number is less than 10
+    const formatTime = (time: number) => time.toString().padStart(2, '0');
+
     return (
         <div className="fitfox-count">
             <h6 className="count-title">Countdown to a new day</h6>
             <div className="count-remain">
                 <div className="count-time">
-                    {timeLeft.hours}
+                    {formatTime(timeLeft.hours)}
                     <span className="time-indicator">hours</span>
                 </div>
                 <div>:</div>
                 <div className="count-time">
-                    {timeLeft.minutes}
+                    {formatTime(timeLeft.minutes)}
                     <span className="time-indicator">minutes</span>
                 </div>
                 <div>:</div>
                 <div className="count-time">
-                    {timeLeft.seconds}
+                    {formatTime(timeLeft.seconds)}
                     <span className="time-indicator">seconds</span>
                 </div>
             </div>
