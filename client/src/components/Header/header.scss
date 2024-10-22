@@ -51,6 +51,7 @@
     }
 
     .user-point {
+        min-width: 75px;
         display: flex;
         align-items: center;
         padding: 5px;
@@ -65,5 +66,12 @@
         line-height: 16px;
         text-align: center;
         color: black;
+
+        span {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     }
 }

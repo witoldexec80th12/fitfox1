@@ -16,6 +16,8 @@ interface AppContextProps {
   setFullName: React.Dispatch<React.SetStateAction<string>>;
   email: string;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
+  point: number;
+  setPoint: React.Dispatch<React.SetStateAction<number>>;
   isAvailableAccess: boolean;
   setisAvailableAccess: React.Dispatch<React.SetStateAction<boolean>>;
   uploadType: string; // breakfast, lunch, dinner, walk, blood
@@ -42,6 +44,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   const [avatar, setAvatar] = useState<string>(defaultAvatar);
   const [fullName, setFullName] = useState<string>("Jones Duo");
   const [email, setEmail] = useState<string>("jones.duo@gmail.com");
+  const [point, setPoint] = useState<number>(0);
   const [userDailyTask, setUserDailyTask] = useState<HealthTask[]>(healthTasks);
 
   useEffect(() => {
@@ -80,6 +83,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
       if (result.success) {
         if (result.data.userInfo.accessCode || result.data.userInfo.labData) {
           setisAvailableAccess(true);
+          setFullName(result.data.first_name);
+          setPoint(result.data.point);
         }
       }
     }
@@ -130,6 +135,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
         setFullName,
         email,
         setEmail,
+        point,
+        setPoint,
         userName,
         userID,
         userDailyTask,
