@@ -11,6 +11,7 @@ import { ContactIcon, CopyIcon, KeyIcon } from "../../utils/Icons";
 import { ListStyle } from "../../data/types";
 import SignupModal from "../../components/Signup/Signup";
 import SuccessAlert from "../../components/Alert/Success";
+import { useAppContext } from "../../context/useAppContext";
 
 const listItemStyle: ListStyle = {
   listStyle: {
@@ -57,6 +58,7 @@ const listStyle: ListStyle = {
 }
 
 const ProfilePage: FC = () => {
+  const { userData } = useAppContext();
   const [showChangePwd, setShowChangePwd] = useState<boolean>(false);
   const [alertContent, setAlertContent] = useState<string>("")
   const [isAlertVisible, setAlertVisible] = useState<boolean>(false);
@@ -64,6 +66,41 @@ const ProfilePage: FC = () => {
   const closeAlert = () => {
     setAlertVisible(false);
   };
+
+  const copyUserInfo = (title: string) => {
+    let textToCopy = "";
+
+    if (title === "Telegram Group") {
+      textToCopy = userData.tgGroupId;
+    } else if (title === "Your STEPN User ID") {
+      textToCopy = userData.stepnId;
+    } else if (title === "Your STEPN Password") {
+      textToCopy = userData.stepnPassword;
+    } else {
+      textToCopy = userData.labData;
+    }
+
+    if (textToCopy === "") {
+      setAlertContent("User data not exist!");
+      setAlertVisible(true);
+      return
+    } else {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          setAlertContent("Copied!");
+          setAlertVisible(true);
+        }).catch((error) => {
+          setAlertContent(error);
+          setAlertVisible(true);
+        });
+      } else {
+        setAlertContent("Clipboard not supported.");
+        setAlertVisible(true);
+      }
+    }
+
+  };
+
 
   return (
     <div className="fitfox-profile">
@@ -81,6 +118,7 @@ const ProfilePage: FC = () => {
               title={userInfo.title}
               btnIcon={CopyIcon}
               style={listItemStyle}
+              onClick={copyUserInfo}
               key={index}
             />
           ))}

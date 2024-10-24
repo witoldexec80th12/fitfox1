@@ -126,15 +126,15 @@ const TasksPage: FC = () => {
                     New Tasks
                 </h2>
                 <ListLayout>
-                    <ListItem title={newTasks[0].title} btnPoint={newTasks[0].reward} style={listStyle} onClick={openSignup} />
-                    <ListItem title={newTasks[1].title} btnPoint={newTasks[1].reward} style={listStyle} onClick={joinTelegramGroup} />
-                    <ListItem title={newTasks[2].title} btnPoint={newTasks[2].reward} style={listStyle} onClick={joinMailingList} />
+                    <ListItem title={newTasks[0].title} btnPoint={newTasks[0].reward} style={listStyle} onSelect={openSignup} key={1} />
+                    <ListItem title={newTasks[1].title} btnPoint={newTasks[1].reward} style={listStyle} onSelect={joinTelegramGroup} key={2} />
+                    <ListItem title={newTasks[2].title} btnPoint={newTasks[2].reward} style={listStyle} onSelect={joinMailingList} key={3} />
                 </ListLayout>
             </div>
 
             <SuccessAlert isVisible={isAlertVisible} onClose={closeAlert} content={alertContent} />
             {showUploadModal && <UploadModal isBloodTest={isBloodTest} onClose={() => setShowUploadModal(false)} setAlertVisible={setAlertVisible} />}
-            {showSignup && <SignupModal onClose={closeSignup} setAlertVisible={setAlertVisible} />}
+            {showSignup && <SignupModal onClose={closeSignup} setAlertVisible={setAlertVisible} setAlertContent={setAlertContent} />}
             {showMailing && <InputModal isAccessCode={false} setAlertVisible={setAlertVisible} onClose={() => setShowMailing(false)} onPassed={() => setShowMailing(false)} />}
         </div>
     );

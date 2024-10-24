@@ -6,12 +6,13 @@ import { addMaillist } from '../../services/userService';
 
 interface InputModalProps {
     isAccessCode: boolean;
+    setAlertContent?: (content: string) => void;
     setAlertVisible?: (visible: boolean) => void;
     onClose: () => void;
     onPassed: () => void;
 }
 
-const InputModal: React.FC<InputModalProps> = ({ isAccessCode, setAlertVisible, onClose, onPassed }) => {
+const InputModal: React.FC<InputModalProps> = ({ isAccessCode, setAlertContent, setAlertVisible, onClose, onPassed }) => {
     const { userID, setisAvailableAccess } = useAppContext();
 
     const [value, setValue] = useState<string>("");
@@ -29,19 +30,22 @@ const InputModal: React.FC<InputModalProps> = ({ isAccessCode, setAlertVisible, 
             if (isAccessCode) {
                 const result = await updateUserInfo(userID, { accessCode: value });
                 if (result.success) {
+                    setAlertContent?.("Success!");
                     setisAvailableAccess(true);
                     onPassed();
                 } else {
-                    setErrors(result.message);
+                    setAlertContent?.(result.message);
+                    setAlertVisible?.(true);
                 }
             } else {
                 const result = await addMaillist(userID, value);
                 if (result.success) {
-                    if (setAlertVisible)
-                        setAlertVisible(true);
+                    setAlertContent?.("Success!");
+                    setAlertVisible?.(true);
                     onPassed();
                 } else {
-                    setErrors(result.message)
+                    setAlertContent?.(result.message);
+                    setAlertVisible?.(true);
                 }
             }
         }

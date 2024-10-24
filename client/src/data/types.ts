@@ -15,6 +15,7 @@ export interface NewTask {
 export interface UserInfo {
     icon: React.FC;
     title: string;
+    data?: string;
 }
 
 export interface PointHistory {

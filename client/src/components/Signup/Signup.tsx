@@ -5,11 +5,12 @@ import { useAppContext } from '../../context/useAppContext';
 
 interface SignupModalProps {
     isChangePwd?: boolean;
+    setAlertContent?: (content: string) => void;
     setAlertVisible: (visible: boolean) => void;
     onClose: () => void;
 }
 
-const SignupModal: React.FC<SignupModalProps> = ({ isChangePwd=false, onClose, setAlertVisible }) => {
+const SignupModal: React.FC<SignupModalProps> = ({ isChangePwd=false, onClose, setAlertVisible, setAlertContent }) => {
     const {userID, setEmail} = useAppContext();
 
     const [formEmail, setformEmail] = useState<string>('');
@@ -59,6 +60,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isChangePwd=false, onClose, s
             if (result.success) {
                 setEmail(result.data.email);
                 setIsLoading(false);
+                setAlertContent?.("Success!");
                 setAlertVisible(true);
                 onClose();
             }
