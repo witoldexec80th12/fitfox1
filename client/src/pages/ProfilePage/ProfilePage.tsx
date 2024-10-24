@@ -10,6 +10,7 @@ import ListItem from "../../components/ListItem/ListItem";
 import { ContactIcon, CopyIcon, KeyIcon } from "../../utils/Icons";
 import { ListStyle } from "../../data/types";
 import SignupModal from "../../components/Signup/Signup";
+import SuccessAlert from "../../components/Alert/Success";
 
 const listItemStyle: ListStyle = {
   listStyle: {
@@ -57,6 +58,12 @@ const listStyle: ListStyle = {
 
 const ProfilePage: FC = () => {
   const [showChangePwd, setShowChangePwd] = useState<boolean>(false);
+  const [alertContent, setAlertContent] = useState<string>("")
+  const [isAlertVisible, setAlertVisible] = useState<boolean>(false);
+
+  const closeAlert = () => {
+    setAlertVisible(false);
+  };
 
   return (
     <div className="fitfox-profile">
@@ -113,7 +120,8 @@ const ProfilePage: FC = () => {
         </ListLayout>
       </div>
 
-      {showChangePwd && <SignupModal isChangePwd={true} onClose={() => setShowChangePwd(false)} />}
+      <SuccessAlert isVisible={isAlertVisible} onClose={closeAlert} content={alertContent} />
+      {showChangePwd && <SignupModal isChangePwd={true} setAlertVisible={setAlertVisible} onClose={() => setShowChangePwd(false)} />}
     </div>
   );
 };

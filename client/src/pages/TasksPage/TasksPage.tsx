@@ -33,7 +33,7 @@ const TasksPage: FC = () => {
     const [showUploadModal, setShowUploadModal] = useState<boolean>(false);
     const [showSignup, setShowSignup] = useState<boolean>(false);
     const [showMailing, setShowMailing] = useState<boolean>(false);
-    const [alertContent, setAlertContent] = useState<string>("")
+    const [alertContent, setAlertContent] = useState<string>("");
     const [isAlertVisible, setAlertVisible] = useState<boolean>(false);
 
     console.log("user daily task: ", userDailyTask);

@@ -1,12 +1,20 @@
-import { useState, FC } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, FC, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./navbar.scss";
 
 type Tab = "tasks" | "ask" | "rank" | "profile";
 
 const BottomNavbar: FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [activeTab, setActiveTab] = useState<Tab>("tasks");
+
+  useEffect(() => {
+    const path = location.pathname.replace("/", "");
+    if (path === "tasks" || path === "ask" || path === "friends" || path === "profile") {
+      setActiveTab(path as Tab);
+    }
+  }, [location.pathname]);
 
   const handleTabClick = (tab: Tab): void => {
     setActiveTab(tab);

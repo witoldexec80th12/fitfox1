@@ -44,32 +44,33 @@ export const updateDailyTask = async (userId: string, type: string, data: string
   try {
     const response = await api.post('/meals', {
       userId,
-      meals: {
-        [type]: data
+      meal: {
+        type,
+        data
       }
     })
 
     if (response.status === 201 || response.status === 200) {
       setTask((prevTask) => {
-        return [
-          {
-            ...prevTask[0],
-            photo: response.data.meals.breakfast ? response.data.meals.breakfast : ""
-          },
-          {
-            ...prevTask[1],
-            photo: response.data.meals.lunch ? response.data.meals.lunch : ""
-          },
-          {
-            ...prevTask[2],
-            photo: response.data.meals.dinner ? response.data.meals.dinner : ""
-          },
-          {
-            ...prevTask[3],
-            photo: response.data.meals.walking ? response.data.meals.walking : ""
-          },
-        ]
-      })
+        // Create a shallow copy of the previous task state
+        const updatedTasks = [...prevTask];
+
+        // Map through result data and update the corresponding task
+        const meal = response.data
+        if (meal.meal.type === "breakfast") {
+          updatedTasks[0] = { ...updatedTasks[0], photo: meal.meal.data };
+        } else if (meal.meal.type === "lunch") {
+          updatedTasks[1] = { ...updatedTasks[1], photo: meal.meal.data };
+        } else if (meal.meal.type === "dinner") {
+          updatedTasks[2] = { ...updatedTasks[2], photo: meal.meal.data };
+        } else {
+          updatedTasks[3] = { ...updatedTasks[3], photo: meal.meal.data };
+        }
+
+        // Return the updated tasks array
+        return updatedTasks;
+      });
+
       return {
         success: true,
         message: "Successfully created or updated the upload info",
@@ -96,7 +97,7 @@ export const getMealInfo = async (userId: string): Promise<ApiResponse> => {
     month: "2-digit",
     year: "numeric",
   }).replace(/\//g, "-");
-  
+
   console.log("userId and today date string: ", userId, dateString);
 
   try {
@@ -117,7 +118,7 @@ export const getMealInfo = async (userId: string): Promise<ApiResponse> => {
   } catch (error) {
     return {
       success: false,
-      message:  error as string
+      message: error as string
     }
   }
 }

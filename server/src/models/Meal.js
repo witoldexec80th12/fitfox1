@@ -4,12 +4,15 @@ import mongoose from "mongoose";
 const mealSchema = new mongoose.Schema({
   userId: { type: String, required: true },
   date: { type: Date, required: true },
-  meals: {
-    breakfast: { type: String }, // URL of the breakfast image
-    lunch: { type: String }, // URL of the lunch image
-    dinner: { type: String }, // URL of the dinner image
-    walking: {type: String},
-  },
+  meal: {
+    type: {
+      type: String,
+      enum: ["breakfast", "lunch", "dinner", "walking"],
+      default: "breakfast"
+    },
+    data: { type: String, default: "" },
+    reviewed: { type: Boolean, default: false }
+  }
 });
 
 export default mongoose.model("Meal", mealSchema);

@@ -111,25 +111,26 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
       if (result.success) {
         console.log("result: ", result.data);
         setUserDailyTask((prevTask) => {
-          return [
-            {
-              ...prevTask[0],
-              photo: result.data.meals.breakfast ? result.data.meals.breakfast : ""
-            },
-            {
-              ...prevTask[1],
-              photo: result.data.meals.lunch ? result.data.meals.lunch : ""
-            },
-            {
-              ...prevTask[2],
-              photo: result.data.meals.dinner ? result.data.meals.dinner : ""
-            },
-            {
-              ...prevTask[3],
-              photo: result.data.meals.walking ? result.data.meals.walking : ""
-            },
-          ]
-        })
+          // Create a shallow copy of the previous task state
+          const updatedTasks = [...prevTask];
+
+          // Map through result data and update the corresponding task
+          result.data.forEach((meal: any) => {
+            if (meal.meal.type === "breakfast") {
+              updatedTasks[0] = { ...updatedTasks[0], photo: meal.meal.data };
+            } else if (meal.meal.type === "lunch") {
+              updatedTasks[1] = { ...updatedTasks[1], photo: meal.meal.data };
+            } else if (meal.meal.type === "dinner") {
+              updatedTasks[2] = { ...updatedTasks[2], photo: meal.meal.data };
+            } else {
+              updatedTasks[3] = { ...updatedTasks[3], photo: meal.meal.data };
+            }
+          });
+
+          // Return the updated tasks array
+          return updatedTasks;
+        });
+
       }
     }
     getInfo();

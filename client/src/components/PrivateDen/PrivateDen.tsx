@@ -1,8 +1,15 @@
 import React from "react";
 
 import "./privateDen.scss";
+import { useNavigate } from "react-router-dom";
 
 const PrivateDen: React.FC = () => {
+  const navigate = useNavigate();
+
+  const goRankPage = () => {
+    navigate("/rank");
+}
+
   return (
     <div className="den-container">
       <div className="den-header">
@@ -117,7 +124,7 @@ const PrivateDen: React.FC = () => {
         <h1>200</h1>
         <p>Your balance</p>
       </div>
-      <button className="fitfox-btn">Redeem Now</button>
+      <button className="fitfox-btn" onClick={goRankPage}>Check Ranking</button>
       <div className="den-star star1">
         <svg
           width="11"

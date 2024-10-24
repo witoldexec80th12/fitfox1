@@ -8,6 +8,7 @@ const userInfoSchema = new mongoose.Schema(
     stepnPassword: { type: String, default: "" },
     labData: { type: String, default: "" },
     accessCode: { type: String, default: "" },
+    labDataChecked: {type: Boolean, default: false},
   },
   { _id: false }
 ); // Prevent _id for userInfo subdocument
@@ -15,9 +16,9 @@ const userInfoSchema = new mongoose.Schema(
 const userSchema = new mongoose.Schema(
   {
     tgId: { type: String, required: true, unique: true }, // Custom tgId field
-    username: { type: String, required: true, unique: true },
+    username: { type: String, default: ""},
     first_name: { type: String, required: true },
-    last_name: { type: String, required: true },
+    last_name: { type: String, default: "" },
     email: { type: String, unique: true },
     avatar: { type: String, default: "" }, // URL to avatar image
     point: { type: Number, default: 0 },
