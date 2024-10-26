@@ -132,7 +132,7 @@ const ProfilePage: FC = () => {
             title="Change Password"
             icon={KeyIcon}
             style={listStyle}
-            onClick={() => setShowChangePwd(true)}
+            onSelect={() => setShowChangePwd(true)}
           />]}
         </ListLayout>
       </div>
