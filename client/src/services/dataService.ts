@@ -38,7 +38,7 @@ export const updateUserInfo = async (userId: string, userInfo: UserInfo): Promis
   }
 }
 
-export const updateDailyTask = async (userId: string, type: string, data: string, setTask: (value: React.SetStateAction<HealthTask[]>) => void): Promise<ApiResponse> => {
+export const updateDailyTask = async (userId: string, type: string, data: string, setTask: (value: React.SetStateAction<HealthTask[]>) => void, setPoint: React.Dispatch<React.SetStateAction<number>>): Promise<ApiResponse> => {
   console.log("userID and uploadType: ", userId, type);
 
   try {
@@ -71,6 +71,8 @@ export const updateDailyTask = async (userId: string, type: string, data: string
         // Return the updated tasks array
         return updatedTasks;
       });
+
+      setPoint(response.data.user.point);
 
       return {
         success: true,

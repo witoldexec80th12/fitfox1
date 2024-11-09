@@ -18,7 +18,7 @@ const UploadModal: React.FC<ModalProps> = ({ isBloodTest = false, onClose, setAl
   const [uploading, setUploading] = useState<boolean>(false);
   const [showInputModal, setShowInputModal] = useState<boolean>(false);
 
-  const { uploadType, userID, isAvailableAccess, setisAvailableAccess, setUserDailyTask } = useAppContext();
+  const { uploadType, userID, isAvailableAccess, setisAvailableAccess, setUserDailyTask, setPoint } = useAppContext();
   console.log("userID: ", userID)
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const UploadModal: React.FC<ModalProps> = ({ isBloodTest = false, onClose, setAl
       if (uploadType === 'blood')
         result = await updateUserInfo(userID, { labData: uploadingData });
       else {
-        result = await updateDailyTask(userID, uploadType, uploadingData, setUserDailyTask)
+        result = await updateDailyTask(userID, uploadType, uploadingData, setUserDailyTask, setPoint)
       }
 
       if (result.success) {
