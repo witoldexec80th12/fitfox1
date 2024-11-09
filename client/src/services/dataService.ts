@@ -51,12 +51,13 @@ export const updateDailyTask = async (userId: string, type: string, data: string
     })
 
     if (response.status === 201 || response.status === 200) {
+      console.log("response: ", response);
       setTask((prevTask) => {
         // Create a shallow copy of the previous task state
         const updatedTasks = [...prevTask];
 
         // Map through result data and update the corresponding task
-        const meal = response.data
+        const { meal } = response.data
         if (meal.meal.type === "breakfast") {
           updatedTasks[0] = { ...updatedTasks[0], photo: meal.meal.data };
         } else if (meal.meal.type === "lunch") {
