@@ -20,7 +20,7 @@ export const addMealPhotos = async (req, res) => {
   if (!user) return res.status(404).json({ error: "User not found" });
 
   const currentDate = new Date(); // Current date with full timestamp
-  const savingDate = currentDate;
+  const savingDate = new Date(currentDate.getTime());
   const mealType = meal.type;
 
   try {
@@ -107,6 +107,7 @@ export const addMealPhotos = async (req, res) => {
 
     const savedUser = await user.save();
 
+    console.log('saving date: ',currentDate, savingDate);
     // Step 2: Add or update the Meal document within the transaction
     const mealDoc = await Meal.findOne({
       userId,
@@ -118,6 +119,7 @@ export const addMealPhotos = async (req, res) => {
     });
 
     if (!mealDoc) {
+      console.log('saving date: ',currentDate, savingDate);
       // If no meal document exists, create a new one
       const newMeal = new Meal({
         userId,

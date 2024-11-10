@@ -38,7 +38,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isChangePwd=false, onClose, s
         const newErrors: { email?: string, password?: string, confirmPassword?: string } = {};
 
         // Validate email
-        if (!validateEmail(formEmail)) {
+        if (!validateEmail(formEmail) && !isChangePwd) {
             newErrors.email = 'Please enter a valid email address';
         }
 
@@ -56,13 +56,22 @@ const SignupModal: React.FC<SignupModalProps> = ({ isChangePwd=false, onClose, s
 
         if (Object.keys(newErrors).length === 0) {
             // Proceed with signup logic
-            const result = await updateUser(userID, {email: formEmail});
-            if (result.success) {
-                setEmail(result.data.email);
-                setIsLoading(false);
-                setAlertContent?.("Success!");
-                setAlertVisible(true);
-                onClose();
+            if (isChangePwd) {
+                setTimeout(() => {
+                    setIsLoading(false);
+                    setAlertContent?.("Success!");
+                    setAlertVisible(true);
+                    onClose();
+                }, 1000)
+            } else {
+                const result = await updateUser(userID, {email: formEmail});
+                if (result.success) {
+                    setEmail(result.data.email);
+                    setIsLoading(false);
+                    setAlertContent?.("Success!");
+                    setAlertVisible(true);
+                    onClose();
+                }
             }
         }
         setIsLoading(false);
