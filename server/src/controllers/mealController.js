@@ -20,6 +20,7 @@ export const addMealPhotos = async (req, res) => {
   if (!user) return res.status(404).json({ error: "User not found" });
 
   const currentDate = new Date(); // Current date with full timestamp
+  const savingDate = currentDate;
   const mealType = meal.type;
 
   try {
@@ -31,6 +32,7 @@ export const addMealPhotos = async (req, res) => {
     if (task) {
       if (task.subscriptionDate !== 0) {
         if (isWithinOneDay(currentDate, task.lastUpdated)) {
+          console.log("task performed within 2 days");
           // Increment subscriptionDate if within 1 day
           task.subscriptionDate += 1;
 
@@ -57,7 +59,7 @@ export const addMealPhotos = async (req, res) => {
             let allSubscriptionDatesAre60 = true; // Initialize a flag to true
             Object.keys(user.tasks).forEach((key) => {
               if (key !== specificKeyToSkip) {
-                if (user.tasks[key].subscriptionDate !== 30) {
+                if (user.tasks[key].subscriptionDate !== 60) {
                   allSubscriptionDatesAre60 = false; // Set flag to false if any subscriptionDate is not 30
                 }
               }
@@ -72,7 +74,7 @@ export const addMealPhotos = async (req, res) => {
             let allSubscriptionDatesAre90 = true; // Initialize a flag to true
             Object.keys(user.tasks).forEach((key) => {
               if (key !== specificKeyToSkip) {
-                if (user.tasks[key].subscriptionDate !== 30) {
+                if (user.tasks[key].subscriptionDate !== 90) {
                   allSubscriptionDatesAre90 = false; // Set flag to false if any subscriptionDate is not 30
                 }
               }
@@ -81,6 +83,8 @@ export const addMealPhotos = async (req, res) => {
             if (allSubscriptionDatesAre90) {
               user.point += 5000;
             }
+          } else {
+            user.point += 50;
           }
         } else {
           // Reset subscriptionDate if more than 1 day
@@ -117,7 +121,7 @@ export const addMealPhotos = async (req, res) => {
       // If no meal document exists, create a new one
       const newMeal = new Meal({
         userId,
-        date: currentDate, // Save the exact date and time
+        date: savingDate, // Save the exact date and time
         meal: {
           ...meal,
           reviewed: false,
@@ -130,6 +134,7 @@ export const addMealPhotos = async (req, res) => {
         meal: newMeal,
       });
     } else {
+      console.log("task already performed in today")
       // Revert user update if meal already exists
       user.tasks[mealType].subscriptionDate -= 1; // Rollback subscriptionDate change
       user.tasks[mealType].lastUpdated = task.lastUpdated; // Restore lastUpdated
